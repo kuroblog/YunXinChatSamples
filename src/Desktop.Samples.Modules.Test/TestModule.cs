@@ -29,6 +29,9 @@ namespace Desktop.Samples.Modules.Test
         public void Initialize()
         {
             _region.RegisterViewWithRegion(RegionNames.Main, () => _container.Resolve<MainView>());
+            _region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<LoginView>());
+
+            _container.RegisterType<object, HomeView>(typeof(HomeView).FullName, new PerResolveLifetimeManager());
 
             _logger?.Debug($"{GetType().Name} ... {nameof(Initialize)}.");
         }

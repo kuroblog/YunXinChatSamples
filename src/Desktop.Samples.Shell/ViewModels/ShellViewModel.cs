@@ -22,6 +22,11 @@ namespace Desktop.Samples.Shell.ViewModels
             }
         }
 
+        public DelegateCommand<Window> LoadedCommand
+        {
+            get => new DelegateCommand<Window>(OnLoaded);
+        }
+
         public ShellViewModel(
             ILoggerFacade logger)
         {
@@ -34,11 +39,6 @@ namespace Desktop.Samples.Shell.ViewModels
         private void OnLoaded(Window window)
         {
             _logger.Debug($"{GetType().Name} ... {nameof(OnLoaded)} ... {nameof(window)}:{window?.GetType().Name}.");
-        }
-
-        public DelegateCommand<Window> LoadedCommand
-        {
-            get => new DelegateCommand<Window>(OnLoaded);
         }
     }
 }

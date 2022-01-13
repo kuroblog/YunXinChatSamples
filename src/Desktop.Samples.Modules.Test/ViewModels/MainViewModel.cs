@@ -11,6 +11,11 @@ namespace Desktop.Samples.Modules.Test.ViewModels
     {
         private readonly ILoggerFacade _logger;
 
+        public DelegateCommand<UserControl> LoadedCommand
+        {
+            get => new DelegateCommand<UserControl>(OnLoaded);
+        }
+
         public MainViewModel(
             ILoggerFacade logger)
         {
@@ -21,11 +26,6 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         private void OnLoaded(UserControl control)
         {
             _logger.Debug($"{GetType().Name} ... {nameof(OnLoaded)} ... {nameof(control)}:{control?.GetType().Name}.");
-        }
-
-        public DelegateCommand<UserControl> LoadedCommand
-        {
-            get => new DelegateCommand<UserControl>(OnLoaded);
         }
     }
 }
