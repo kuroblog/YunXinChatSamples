@@ -1,16 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Desktop.Samples.Shell
 {
-    /// <summary>
-    /// App.xaml 的交互逻辑
-    /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Exit += OnExit;
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
+            TaskScheduler.UnobservedTaskException += OnTasksUnobservedTaskException;
+            AppDomain.CurrentDomain.UnhandledException += OnAppDomainUnhandledException;
+        }
+
+        private void OnExit(object sender, ExitEventArgs e)
+        {
+        }
+
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+        }
+
+        private void OnTasksUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+        }
+
+        private void OnAppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            var bootstrapper = new ShellBootstrapper();
+            bootstrapper.Run();
+        }
     }
 }

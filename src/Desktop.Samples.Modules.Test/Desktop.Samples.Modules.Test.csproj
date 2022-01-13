@@ -96,6 +96,10 @@
       <Name>Desktop.Samples.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)$(TargetName)*$(TargetExt)" "$(SolutionDir)Desktop.Samples.Shell\$(OutDir)" /Y /S
