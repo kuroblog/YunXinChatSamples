@@ -88,6 +88,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\CleanLanguageForDesignTimeBehavior.cs" />
+    <Compile Include="Behaviors\PasswordBoxBindingBehavior.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="NLogWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

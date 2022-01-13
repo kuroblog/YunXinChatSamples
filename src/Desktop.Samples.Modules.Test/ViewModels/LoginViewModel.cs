@@ -14,6 +14,17 @@ namespace Desktop.Samples.Modules.Test.ViewModels
     {
         private readonly ILoggerFacade _logger;
         private readonly IRegionManager _region;
+        private LoginInfo _login;
+
+        public LoginInfo Login
+        {
+            get => _login;
+            set
+            {
+                _login = value;
+                RaisePropertyChanged(() => Login);
+            }
+        }
 
         public DelegateCommand<UserControl> LoadedCommand
         {
@@ -25,10 +36,20 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             get => new DelegateCommand(OnGoToHome);
         }
 
+        //public DelegateCommand LoginCommand
+        //{
+        //    get => new DelegateCommand(OnLogin, CanLogin);
+        //}
+
         public LoginViewModel(
             IRegionManager region,
             ILoggerFacade logger)
         {
+            _login = new LoginInfo
+            {
+                LoginCommand = new DelegateCommand(OnLogin, CanLogin)
+            };
+
             _region = region ?? throw new ArgumentNullException(nameof(region));
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -48,6 +69,19 @@ namespace Desktop.Samples.Modules.Test.ViewModels
                 navigationResult => { });
         }
 
+        private void OnLogin()
+        {
+
+        }
+
+        private bool CanLogin()
+        {
+            return !string.IsNullOrEmpty(Login.LoginId)
+                && !string.IsNullOrEmpty(Login.LoginPass)
+                && Login.LoginId.Length > 2
+                && Login.LoginPass.Length > 2;
+        }
+
         #region INavigationAware
         public bool IsNavigationTarget(NavigationContext navigationContext) => true;
 
@@ -63,5 +97,38 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         {
         }
         #endregion
+    }
+
+    public class LoginInfo : NotificationObject
+    {
+        private string _loginId;
+
+        public string LoginId
+        {
+            get => _loginId;
+            set
+            {
+                _loginId = value;
+                RaisePropertyChanged(() => LoginId);
+
+                LoginCommand?.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _loginPass;
+
+        public string LoginPass
+        {
+            get => _loginPass;
+            set
+            {
+                _loginPass = value;
+                RaisePropertyChanged(() => LoginPass);
+
+                LoginCommand?.RaiseCanExecuteChanged();
+            }
+        }
+
+        public DelegateCommand LoginCommand { get; set; }
     }
 }

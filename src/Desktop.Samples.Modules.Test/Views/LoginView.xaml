@@ -8,6 +8,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:common="clr-namespace:Desktop.Samples.Common;assembly=Desktop.Samples.Common"
+             xmlns:beh="clr-namespace:Desktop.Samples.Common.Behaviors;assembly=Desktop.Samples.Common"
              xmlns:ms="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:LoginViewModel, IsDesignTimeCreatable=False}">
@@ -51,13 +52,25 @@
                  Margin="1"
                  HorizontalAlignment="Left" 
                  VerticalAlignment="Top" 
-                 Width="{DynamicResource InputSize}"/>
+                 Width="{DynamicResource InputSize}"
+                 Text="{Binding Login.LoginId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Login.LoginCommand}" Key="Enter"/>
+            </TextBox.InputBindings>
+        </TextBox>
 
         <PasswordBox Grid.Row="1" 
                      Margin="1"
                      HorizontalAlignment="Left" 
                      VerticalAlignment="Top"
-                     Width="{DynamicResource InputSize}"/>
+                     Width="{DynamicResource InputSize}">
+            <PasswordBox.InputBindings>
+                <KeyBinding Command="{Binding Login.LoginCommand}" Key="Enter"/>
+            </PasswordBox.InputBindings>
+            <i:Interaction.Behaviors>
+                <beh:PasswordBoxBindingBehavior LoginPass="{Binding Login.LoginPass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </i:Interaction.Behaviors>
+        </PasswordBox>
 
         <Button Grid.Row="2" 
                 Margin="1"
@@ -65,7 +78,8 @@
                 VerticalAlignment="Center"
                 Content="login"
                 Padding="5,1"
-                Width="{DynamicResource InputSize}"/>
+                Width="{DynamicResource InputSize}"
+                Command="{Binding Login.LoginCommand}"/>
 
     </Grid>
 </UserControl>
