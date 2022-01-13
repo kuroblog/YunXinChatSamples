@@ -27,6 +27,43 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prism", "Prism", "{CCCEDBFD
 		Bin\Prism\Microsoft.Practices.Unity.xml = Bin\Prism\Microsoft.Practices.Unity.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YunXin.IM", "YunXin.IM", "{EEDE5D0B-52AF-41FB-9783-4D6F0207A485}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x86", "x86", "{8451748A-9014-4829-971B-76B86398B605}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\YunXin.IM\x86\msvcp120.dll = Bin\YunXin.IM\x86\msvcp120.dll
+		Bin\YunXin.IM\x86\msvcr120.dll = Bin\YunXin.IM\x86\msvcr120.dll
+		Bin\YunXin.IM\x86\nim.dll = Bin\YunXin.IM\x86\nim.dll
+		Bin\YunXin.IM\x86\nim_audio.dll = Bin\YunXin.IM\x86\nim_audio.dll
+		Bin\YunXin.IM\x86\nim_audio_hook.dll = Bin\YunXin.IM\x86\nim_audio_hook.dll
+		Bin\YunXin.IM\x86\nim_chatroom.dll = Bin\YunXin.IM\x86\nim_chatroom.dll
+		Bin\YunXin.IM\x86\nim_tools_http.dll = Bin\YunXin.IM\x86\nim_tools_http.dll
+		Bin\YunXin.IM\x86\nrtc.dll = Bin\YunXin.IM\x86\nrtc.dll
+		Bin\YunXin.IM\x86\nrtc_audio_process.dll = Bin\YunXin.IM\x86\nrtc_audio_process.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nim_conf", "nim_conf", "{D7ECA07A-6D6F-44C6-A831-1F24262D43B2}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\YunXin.IM\x86\nim_conf\ver_ctrl.dll = Bin\YunXin.IM\x86\nim_conf\ver_ctrl.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x64", "x64", "{EFD4CDE4-00AB-4E59-9736-9223BFF38FF6}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\YunXin.IM\x64\msvcp120.dll = Bin\YunXin.IM\x64\msvcp120.dll
+		Bin\YunXin.IM\x64\msvcr120.dll = Bin\YunXin.IM\x64\msvcr120.dll
+		Bin\YunXin.IM\x64\nim.dll = Bin\YunXin.IM\x64\nim.dll
+		Bin\YunXin.IM\x64\nim_audio.dll = Bin\YunXin.IM\x64\nim_audio.dll
+		Bin\YunXin.IM\x64\nim_chatroom.dll = Bin\YunXin.IM\x64\nim_chatroom.dll
+		Bin\YunXin.IM\x64\nim_tools_http.dll = Bin\YunXin.IM\x64\nim_tools_http.dll
+		Bin\YunXin.IM\x64\nrtc.dll = Bin\YunXin.IM\x64\nrtc.dll
+		Bin\YunXin.IM\x64\nrtc_audio_process.dll = Bin\YunXin.IM\x64\nrtc_audio_process.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nim_conf", "nim_conf", "{3D35E859-64EF-45FA-B95F-BF6A67239DA8}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\YunXin.IM\x64\nim_conf\ver_ctrl.dll = Bin\YunXin.IM\x64\nim_conf\ver_ctrl.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +80,11 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CCCEDBFD-97D1-4161-ABED-42F2D38724C4} = {6C045127-4D2C-4C58-9DC9-57641AB3F9C5}
+		{EEDE5D0B-52AF-41FB-9783-4D6F0207A485} = {6C045127-4D2C-4C58-9DC9-57641AB3F9C5}
+		{8451748A-9014-4829-971B-76B86398B605} = {EEDE5D0B-52AF-41FB-9783-4D6F0207A485}
+		{D7ECA07A-6D6F-44C6-A831-1F24262D43B2} = {8451748A-9014-4829-971B-76B86398B605}
+		{EFD4CDE4-00AB-4E59-9736-9223BFF38FF6} = {EEDE5D0B-52AF-41FB-9783-4D6F0207A485}
+		{3D35E859-64EF-45FA-B95F-BF6A67239DA8} = {EFD4CDE4-00AB-4E59-9736-9223BFF38FF6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {94CE2D4A-4EBF-4759-BBF4-49E264745E47}
