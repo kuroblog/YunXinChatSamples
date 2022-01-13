@@ -46,6 +46,9 @@ namespace Desktop.Samples.Shell
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
+
+            //Container.RegisterType<T>(new PerResolveLifetimeManager());
+            //Container.RegisterType<T>(new ContainerControlledLifetimeManager());
         }
     }
 }
