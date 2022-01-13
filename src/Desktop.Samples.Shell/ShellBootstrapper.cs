@@ -1,4 +1,6 @@
-﻿using Desktop.Samples.Shell.Views;
+﻿using Desktop.Samples.Common;
+using Desktop.Samples.Shell.Views;
+using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
@@ -34,6 +36,11 @@ namespace Desktop.Samples.Shell
             //return base.CreateModuleCatalog();
 
             return new DirectoryModuleCatalog { ModulePath = @".\" };
+        }
+
+        protected override ILoggerFacade CreateLogger()
+        {
+            return new NLogWrapper();
         }
 
         protected override void ConfigureContainer()
