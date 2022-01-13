@@ -5,6 +5,28 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop.Samples.Shell", "Desktop.Samples.Shell\Desktop.Samples.Shell.csproj", "{8CC494C6-9D86-40B2-8466-2D57A04738C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{6C045127-4D2C-4C58-9DC9-57641AB3F9C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prism", "Prism", "{CCCEDBFD-97D1-4161-ABED-42F2D38724C4}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\Prism\Microsoft.Practices.Prism.dll = Bin\Prism\Microsoft.Practices.Prism.dll
+		Bin\Prism\Microsoft.Practices.Prism.Interactivity.dll = Bin\Prism\Microsoft.Practices.Prism.Interactivity.dll
+		Bin\Prism\Microsoft.Practices.Prism.Interactivity.pdb = Bin\Prism\Microsoft.Practices.Prism.Interactivity.pdb
+		Bin\Prism\Microsoft.Practices.Prism.Interactivity.XML = Bin\Prism\Microsoft.Practices.Prism.Interactivity.XML
+		Bin\Prism\Microsoft.Practices.Prism.MefExtensions.dll = Bin\Prism\Microsoft.Practices.Prism.MefExtensions.dll
+		Bin\Prism\Microsoft.Practices.Prism.MefExtensions.pdb = Bin\Prism\Microsoft.Practices.Prism.MefExtensions.pdb
+		Bin\Prism\Microsoft.Practices.Prism.MefExtensions.XML = Bin\Prism\Microsoft.Practices.Prism.MefExtensions.XML
+		Bin\Prism\Microsoft.Practices.Prism.pdb = Bin\Prism\Microsoft.Practices.Prism.pdb
+		Bin\Prism\Microsoft.Practices.Prism.UnityExtensions.dll = Bin\Prism\Microsoft.Practices.Prism.UnityExtensions.dll
+		Bin\Prism\Microsoft.Practices.Prism.UnityExtensions.pdb = Bin\Prism\Microsoft.Practices.Prism.UnityExtensions.pdb
+		Bin\Prism\Microsoft.Practices.Prism.UnityExtensions.xml = Bin\Prism\Microsoft.Practices.Prism.UnityExtensions.xml
+		Bin\Prism\Microsoft.Practices.Prism.XML = Bin\Prism\Microsoft.Practices.Prism.XML
+		Bin\Prism\Microsoft.Practices.ServiceLocation.dll = Bin\Prism\Microsoft.Practices.ServiceLocation.dll
+		Bin\Prism\Microsoft.Practices.ServiceLocation.XML = Bin\Prism\Microsoft.Practices.ServiceLocation.XML
+		Bin\Prism\Microsoft.Practices.Unity.dll = Bin\Prism\Microsoft.Practices.Unity.dll
+		Bin\Prism\Microsoft.Practices.Unity.xml = Bin\Prism\Microsoft.Practices.Unity.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +40,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CCCEDBFD-97D1-4161-ABED-42F2D38724C4} = {6C045127-4D2C-4C58-9DC9-57641AB3F9C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {94CE2D4A-4EBF-4759-BBF4-49E264745E47}
