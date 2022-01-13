@@ -61,6 +61,7 @@ namespace Desktop.Samples.Shell
 
         private void OnExit(object sender, ExitEventArgs e)
         {
+            _logger.Debug($"{GetType().Name} ... {nameof(OnExit)}.");
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -77,6 +78,8 @@ namespace Desktop.Samples.Shell
             {
                 throw new ArgumentException($"{nameof(ILoggerFacade)} resolve failed.");
             }
+
+            _logger.Debug($"{GetType().Name} ... {nameof(OnStartup)}.");
         }
     }
 }
