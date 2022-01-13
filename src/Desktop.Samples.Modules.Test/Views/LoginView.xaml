@@ -8,6 +8,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:common="clr-namespace:Desktop.Samples.Common;assembly=Desktop.Samples.Common"
+             xmlns:ms="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:LoginViewModel, IsDesignTimeCreatable=False}">
 
@@ -27,12 +28,44 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
+    <UserControl.Resources>
+        <ms:Double x:Key="InputSize">120</ms:Double>
+    </UserControl.Resources>
+
     <Grid>
-        <Button Content="to home" 
+        <!--<Button Content="to home" 
                 Command="{Binding GoToHomeCommand}"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
                 Margin="5,1" 
-                Padding="5,1"/>
+                Padding="5,1"/>-->
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0" 
+                 Margin="1"
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top" 
+                 Width="{DynamicResource InputSize}"/>
+
+        <PasswordBox Grid.Row="1" 
+                     Margin="1"
+                     HorizontalAlignment="Left" 
+                     VerticalAlignment="Top"
+                     Width="{DynamicResource InputSize}"/>
+
+        <Button Grid.Row="2" 
+                Margin="1"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Center"
+                Content="login"
+                Padding="5,1"
+                Width="{DynamicResource InputSize}"/>
+
     </Grid>
 </UserControl>
