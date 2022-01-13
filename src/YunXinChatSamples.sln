@@ -66,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nim_conf", "nim_conf", "{3D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop.Samples.Common", "Desktop.Samples.Common\Desktop.Samples.Common.csproj", "{215A7663-3FD7-4515-9A1F-909CC265A02B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop.Samples.Modules.Test", "Desktop.Samples.Modules.Test\Desktop.Samples.Modules.Test.csproj", "{1C4BE14D-2058-4BE0-BCDB-85831BF1EAB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{215A7663-3FD7-4515-9A1F-909CC265A02B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{215A7663-3FD7-4515-9A1F-909CC265A02B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{215A7663-3FD7-4515-9A1F-909CC265A02B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C4BE14D-2058-4BE0-BCDB-85831BF1EAB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C4BE14D-2058-4BE0-BCDB-85831BF1EAB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C4BE14D-2058-4BE0-BCDB-85831BF1EAB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C4BE14D-2058-4BE0-BCDB-85831BF1EAB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
