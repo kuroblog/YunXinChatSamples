@@ -6,9 +6,21 @@ namespace Desktop.Samples.Shell.ViewModels
 {
     public class ShellViewModel : NotificationObject
     {
+        private string _title;
+
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                RaisePropertyChanged(() => Title);
+            }
+        }
+
         public ShellViewModel()
         {
-
+            _title = "Desktop Samples";
         }
 
         private void OnLoaded(Window window)
