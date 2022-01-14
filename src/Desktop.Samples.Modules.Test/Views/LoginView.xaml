@@ -15,8 +15,8 @@
 
     <d:DesignProperties.DesignStyle>
         <Style TargetType="UserControl">
-            <Setter Property="Width" Value="800"/>
-            <Setter Property="Height" Value="450"/>
+            <!--<Setter Property="Width" Value="800"/>-->
+            <!--<Setter Property="Height" Value="450"/>-->
             <Setter Property="Background" Value="#FFFFFFFF"/>
             <!--<Setter Property="DataContext" Value="{d:DesignInstance Type=vm:LoginViewModel, IsDesignTimeCreatable=False}"/>-->
         </Style>
@@ -31,6 +31,7 @@
 
     <UserControl.Resources>
         <ms:Double x:Key="InputSize">120</ms:Double>
+        <ms:Double x:Key="InputSize2">160</ms:Double>
     </UserControl.Resources>
 
     <Grid>
@@ -41,45 +42,129 @@
                 Margin="5,1" 
                 Padding="5,1"/>-->
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top"
+                  HorizontalAlignment="Left"
+                  Margin="1"
+                  Width="{DynamicResource InputSize}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" 
-                 Margin="1"
-                 HorizontalAlignment="Left" 
-                 VerticalAlignment="Top" 
-                 Width="{DynamicResource InputSize}"
-                 Text="{Binding Login.LoginId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <TextBox.InputBindings>
-                <KeyBinding Command="{Binding Login.LoginCommand}" Key="Enter"/>
-            </TextBox.InputBindings>
-        </TextBox>
+                <TextBox Grid.Row="0" 
+                         Margin="1"
+                         Text="{Binding Login.LoginId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding Login.LoginCommand}" Key="Enter"/>
+                    </TextBox.InputBindings>
+                </TextBox>
 
-        <PasswordBox Grid.Row="1" 
-                     Margin="1"
-                     HorizontalAlignment="Left" 
-                     VerticalAlignment="Top"
-                     Width="{DynamicResource InputSize}">
-            <PasswordBox.InputBindings>
-                <KeyBinding Command="{Binding Login.LoginCommand}" Key="Enter"/>
-            </PasswordBox.InputBindings>
-            <i:Interaction.Behaviors>
-                <beh:PasswordBoxBindingBehavior LoginPass="{Binding Login.LoginPass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </i:Interaction.Behaviors>
-        </PasswordBox>
+                <PasswordBox Grid.Row="1" 
+                             Margin="1">
+                    <PasswordBox.InputBindings>
+                        <KeyBinding Command="{Binding Login.LoginCommand}" Key="Enter"/>
+                    </PasswordBox.InputBindings>
+                    <i:Interaction.Behaviors>
+                        <beh:PasswordBoxBindingBehavior LoginPass="{Binding Login.LoginPass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:Interaction.Behaviors>
+                </PasswordBox>
 
-        <Button Grid.Row="2" 
-                Margin="1"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center"
-                Content="login"
-                Padding="5,1"
-                Width="{DynamicResource InputSize}"
-                Command="{Binding Login.LoginCommand}"/>
+                <Button Grid.Row="2" 
+                        Margin="1"
+                        Content="login"
+                        Padding="5,1"
+                        Command="{Binding Login.LoginCommand}"/>
+            </Grid>
 
+            <Grid HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="1,10,1,1"
+                  Width="{DynamicResource InputSize2}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" 
+                          Grid.Column="0" 
+                          Grid.ColumnSpan="2"
+                          Content="Enable Proxy"
+                          Name="ProxyEnableState"
+                          IsChecked="{Binding Proxy.EnableProxy,Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="1" 
+                           VerticalAlignment="Center"
+                           Margin="1,1,5,1"
+                           Text="type"/>
+                <TextBlock Grid.Row="2" 
+                           VerticalAlignment="Center"
+                           Margin="1,1,5,1"
+                           Text="ip"/>
+                <TextBlock Grid.Row="3" 
+                           VerticalAlignment="Center"
+                           Margin="1,1,5,1"
+                           Text="port"/>
+                <TextBlock Grid.Row="4" 
+                           VerticalAlignment="Center"
+                           Margin="1,1,5,1"
+                           Text="user"/>
+                <TextBlock Grid.Row="5" 
+                           VerticalAlignment="Center"
+                           Margin="1,1,5,1"
+                           Text="secret"/>
+
+                <ComboBox Grid.Row="1" 
+                          Grid.Column="1"
+                          VerticalAlignment="Center"
+                          Margin="1"
+                          ItemsSource="{Binding Proxy.ProxyTypes}"
+                          DisplayMemberPath="Desc"
+                          SelectedItem="{Binding Proxy.Type, Mode=TwoWay}"
+                          IsEnabled="{Binding ElementName=ProxyEnableState,Path=IsChecked}"/>
+
+                <TextBox Grid.Row="2" 
+                         Grid.Column="1"
+                         VerticalAlignment="Center"
+                         Margin="1"
+                         Text="{Binding Proxy.IP,Mode=TwoWay}"
+                         IsEnabled="{Binding ElementName=ProxyEnableState,Path=IsChecked}"/>
+
+                <TextBox Grid.Row="3" 
+                         Grid.Column="1"
+                         VerticalAlignment="Center"
+                         Margin="1"
+                         Text="{Binding Proxy.Port,Mode=TwoWay}"
+                         IsEnabled="{Binding ElementName=ProxyEnableState,Path=IsChecked}"/>
+
+                <TextBox Grid.Row="4" 
+                         Grid.Column="1"
+                         VerticalAlignment="Center"
+                         Margin="1"
+                         Text="{Binding Proxy.User,Mode=TwoWay}"
+                         IsEnabled="{Binding ElementName=ProxyEnableState,Path=IsChecked}"/>
+
+                <PasswordBox Grid.Row="5" 
+                             Grid.Column="1"
+                             VerticalAlignment="Center"
+                             Margin="1"
+                             IsEnabled="{Binding ElementName=ProxyEnableState,Path=IsChecked}">
+                    <i:Interaction.Behaviors>
+                        <beh:PasswordBoxBindingBehavior LoginPass="{Binding Proxy.Secret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:Interaction.Behaviors>
+                </PasswordBox>
+
+            </Grid>
+        </DockPanel>
     </Grid>
 </UserControl>

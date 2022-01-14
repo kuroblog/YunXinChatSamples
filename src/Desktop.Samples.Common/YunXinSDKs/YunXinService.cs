@@ -121,5 +121,10 @@ namespace Desktop.Samples.Common.YunXinSDKs
                     });
             }
         }
+
+        public virtual void SetProxy(NIMProxyType type, string ip, int port, string user, string secret)
+        {
+            GlobalAPI.SetProxy(type, ip, port, user, secret);
+        }
     }
 }
