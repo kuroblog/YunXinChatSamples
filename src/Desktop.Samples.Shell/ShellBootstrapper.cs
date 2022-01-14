@@ -1,4 +1,5 @@
 ﻿using Desktop.Samples.Common;
+using Desktop.Samples.Common.YunXinSDKs;
 using Desktop.Samples.Shell.Views;
 using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.Modularity;
@@ -49,6 +50,8 @@ namespace Desktop.Samples.Shell
 
             //Container.RegisterType<T>(new PerResolveLifetimeManager());
             //Container.RegisterType<T>(new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<YunXinService>(new ContainerControlledLifetimeManager());
         }
     }
 }

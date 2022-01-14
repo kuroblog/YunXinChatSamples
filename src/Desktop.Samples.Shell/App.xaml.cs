@@ -1,4 +1,5 @@
 ﻿using Desktop.Samples.Common;
+using Desktop.Samples.Common.YunXinSDKs;
 using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Unity;
 using System;
@@ -11,6 +12,7 @@ namespace Desktop.Samples.Shell
     public partial class App : Application
     {
         private ILoggerFacade _logger;
+        private YunXinService _yunxin;
 
         public App()
         {
@@ -61,6 +63,8 @@ namespace Desktop.Samples.Shell
 
         private void OnExit(object sender, ExitEventArgs e)
         {
+            _yunxin?.Clean();
+
             _logger.Debug($"{GetType().Name} ... {nameof(OnExit)}.");
         }
 
@@ -73,12 +77,23 @@ namespace Desktop.Samples.Shell
             var bootstrapper = new ShellBootstrapper();
             bootstrapper.Run();
 
+            _yunxin = bootstrapper.Container.Resolve<YunXinService>();
+            if (_yunxin == null)
+            {
+                throw new ArgumentException($"{nameof(YunXinService)} resolve failed.");
+            }
+            var isYunXinSDKInitialized = _yunxin.Init("YunXinSDKSamples");
+            if (isYunXinSDKInitialized == false)
+            {
+                MessageBox.Show("YunXin SDKs initialization failed.", "error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+            }
+
             _logger = bootstrapper.Container.Resolve<ILoggerFacade>();
             if (_logger == null)
             {
                 throw new ArgumentException($"{nameof(ILoggerFacade)} resolve failed.");
             }
-
             _logger.Debug($"{GetType().Name} ... {nameof(OnStartup)}.");
         }
     }
