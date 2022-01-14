@@ -90,7 +90,9 @@
   <ItemGroup>
     <Compile Include="Behaviors\CleanLanguageForDesignTimeBehavior.cs" />
     <Compile Include="Behaviors\PasswordBoxBindingBehavior.cs" />
+    <Compile Include="Events\ExitByLoginStatusEvent.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="MainDispatcher.cs" />
     <Compile Include="NLogWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

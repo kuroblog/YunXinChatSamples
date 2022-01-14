@@ -1,5 +1,6 @@
 ﻿using Desktop.Samples.Common;
 using Desktop.Samples.Common.YunXinSDKs;
+using Desktop.Samples.Modules.Test.Properties;
 using Desktop.Samples.Modules.Test.Views;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Logging;
@@ -20,6 +21,7 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         private LoginInfo _login;
         private ProxyInfo _proxy;
         private YunXinService _yunxin;
+        private LoginProfile _loginProfile = new LoginProfile();
 
         public ProxyInfo Proxy
         {
@@ -79,6 +81,16 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
         private void OnLoaded(UserControl control)
         {
+            void SetLogin(LoginInfo login)
+            {
+                _loginProfile.FromSettings();
+
+                Login.LoginId = _loginProfile.Login.Id;
+                Login.LoginPass = _loginProfile.Login.Secret;
+            }
+
+            SetLogin(Login);
+
             _logger.Debug($"{GetType().Name} ... {nameof(OnLoaded)} ... {nameof(control)}:{control?.GetType().Name}.");
         }
 
@@ -92,7 +104,33 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
         private void OnLogin()
         {
+            _yunxin.Login(Login.LoginId, Login.LoginPass, result =>
+            {
+                if (result.LoginStep == NIM.NIMLoginStep.kNIMLoginStepLogin)
+                {
+                    if (result.Code == NIM.ResponseCode.kNIMResSuccess)
+                    {
+                        _loginProfile.SaveLogin(Login.LoginId, Login.LoginPass);
 
+                        MainDispatcher.Instance.Invoke(() =>
+                        {
+                            _region.RequestNavigate(
+                                TestRegionNames.TestHome,
+                                new Uri(typeof(HomeView).FullName, UriKind.Relative),
+                                navigationResult => { });
+                        });
+
+                        return;
+                    }
+                    else
+                    {
+                        _yunxin.Logout(logoutResult =>
+                            _logger.Debug($"{GetType().Name} ... {nameof(OnLogin)} ... {nameof(result)}:{result.ToJson()}."));
+                    }
+
+                    // TODO: alert login failed message
+                }
+            });
         }
 
         private bool CanLogin()
@@ -265,5 +303,80 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         public string Desc { get; set; }
 
         public NIM.NIMProxyType Type { get; set; }
+    }
+
+    public class UserProfile
+    {
+        public string Id { get; set; }
+
+        public string Secret { get; set; }
+    }
+
+    public class LoginProfile
+    {
+        public List<UserProfile> Users { get; set; }
+
+        public UserProfile Login { get; set; }
+    }
+
+    public static class LoginProfileExtensions
+    {
+        public static void FromSettings(this LoginProfile login)
+        {
+            var settingsLoginProfile = Settings.Default.LoginProfile.ParseTo<LoginProfile>();
+            if (settingsLoginProfile == null)
+            {
+                settingsLoginProfile = new LoginProfile { };
+            }
+
+            if (settingsLoginProfile.Users == null)
+            {
+                settingsLoginProfile.Users = new List<UserProfile> { };
+            }
+
+            if (settingsLoginProfile.Login == null)
+            {
+                settingsLoginProfile.Login = new UserProfile
+                {
+#if DEBUG
+                    Id = "wearebest",
+                    Secret = "123456"
+#endif
+                };
+            }
+
+            login.Login = settingsLoginProfile.Login;
+            login.Users = settingsLoginProfile.Users;
+        }
+
+        public static void SaveLogin(this LoginProfile login, string id, string secret)
+        {
+            login.Login = new UserProfile { Id = id, Secret = secret };
+
+            var userProfiles = login.Users.Where(user => user.Id == login.Login.Id)?.ToList();
+            if (userProfiles == null || !userProfiles.Any())
+            {
+                login.Users.Add(login.Login);
+            }
+            else
+            {
+                userProfiles.ForEach(user => user.Secret = login.Login.Secret);
+            }
+
+            Settings.Default.LoginProfile = login.ToJson();
+            Settings.Default.Save();
+        }
+
+        public static void Clear(this LoginProfile login)
+        {
+            login = new LoginProfile
+            {
+                Login = new UserProfile { },
+                Users = new List<UserProfile> { }
+            };
+
+            Settings.Default.LoginProfile = login.ToJson();
+            Settings.Default.Save();
+        }
     }
 }

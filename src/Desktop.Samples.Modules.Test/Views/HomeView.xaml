@@ -13,8 +13,8 @@
 
     <d:DesignProperties.DesignStyle>
         <Style TargetType="UserControl">
-            <Setter Property="Width" Value="800"/>
-            <Setter Property="Height" Value="450"/>
+            <!--<Setter Property="Width" Value="800"/>-->
+            <!--<Setter Property="Height" Value="450"/>-->
             <Setter Property="Background" Value="#FFFFFFFF"/>
             <!--<Setter Property="DataContext" Value="{d:DesignInstance Type=vm:HomeViewModel, IsDesignTimeCreatable=False}"/>-->
         </Style>
@@ -28,8 +28,15 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Button Content="to login" 
+        <!--<Button Content="to login" 
                 Command="{Binding GoToLoginCommand}"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Margin="5,1" 
+                Padding="5,1"/>-->
+
+        <Button Content="logout" 
+                Command="{Binding LogoutCommand}"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
                 Margin="5,1" 

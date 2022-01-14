@@ -3,6 +3,10 @@ using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.ViewModel;
 using Newtonsoft.Json.Linq;
 using NIM;
+using NIM.DataSync;
+using NIM.Friend;
+using NIM.SysMessage;
+using NIM.User;
 using NimUtility;
 using System;
 using System.Collections.Generic;
@@ -17,6 +21,10 @@ namespace Desktop.Samples.Common.YunXinSDKs
         private readonly ILoggerFacade _logger;
         private readonly IEventAggregator _event;
 
+        private const string YunXinSDKSettingsFile = "config.json";
+
+        protected NIMVChatSessionStatus _vChatSessionStatus;
+
         public YunXinService(
             IEventAggregator @event,
             ILoggerFacade logger)
@@ -26,8 +34,6 @@ namespace Desktop.Samples.Common.YunXinSDKs
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logger?.Debug($"{GetType().FullName} ... ctor.");
         }
-
-        private const string YunXinSDKSettingsFile = "config.json";
 
         public virtual NimConfig GetSDKConfig()
         {
@@ -100,11 +106,29 @@ namespace Desktop.Samples.Common.YunXinSDKs
                 };
             }
 
-            return ClientAPI.Init(sdkConfig.AppKey, appDataDir, appInstallDir, sdkConfig);
+            var initState = ClientAPI.Init(sdkConfig.AppKey, appDataDir, appInstallDir, sdkConfig);
+            if (!initState)
+            {
+                throw new ArgumentException($"init {nameof(ClientAPI)} from {nameof(YunXinSDKSettingsFile)} failed.");
+            }
+
+            initState = VChatAPI.Init("");
+            if (!initState)
+            {
+                throw new ArgumentException($"init {nameof(VChatAPI)} failed.");
+            }
+
+            return initState;
         }
 
         public virtual void Clean(bool needToLogout = false)
         {
+            //DeviceAPI.EndDevice(NIMDeviceType.kNIMDeviceTypeAudioIn);
+            //DeviceAPI.EndDevice(NIMDeviceType.kNIMDeviceTypeAudioOutChat);
+            //DeviceAPI.EndDevice(NIMDeviceType.kNIMDeviceTypeVideo);
+            //DeviceAPI.EndDevice(NIMDeviceType.kNIMDeviceTypeSoundcardCapturer);
+            //DeviceAPI.EndDevice(NIMDeviceType.kNIMDeviceTypeAudioHook);
+
             VChatAPI.Cleanup();
 
             if (!needToLogout)
@@ -125,6 +149,178 @@ namespace Desktop.Samples.Common.YunXinSDKs
         public virtual void SetProxy(NIMProxyType type, string ip, int port, string user, string secret)
         {
             GlobalAPI.SetProxy(type, ip, port, user, secret);
+        }
+
+        #region callbacks
+        protected virtual void OnRegDisconnected() { }
+
+        protected virtual void OnRegKickout(NIMKickoutResult result) { }
+
+        protected virtual void OnRegAutoRelogin(NIMLoginResult result) { }
+
+        protected virtual void OnRegMultiSpotLoginNotify(NIMMultiSpotLoginNotifyResult result) { }
+
+        protected virtual void OnRegKickOtherClient(NIMKickOtherResult result) { }
+
+        protected virtual void OnRegComplete(NIMDataSyncType syncType, NIMDataSyncStatus status, string jsonAttachment) { }
+
+        protected virtual void OnRegPushEvent(ResponseCode code, NIMEventInfo info) { }
+
+        protected virtual void OnRegBatchPushEvent(ResponseCode code, List<NIMEventInfo> infoList) { }
+
+        protected virtual void OnFriendProfileChanged(object sender, NIMFriendProfileChangedArgs e) { }
+
+        protected virtual void OnUserRelationshipListSync(object sender, UserRelationshipSyncArgs e) { }
+
+        protected virtual void OnUserRelationshipChanged(object sender, UserRelationshipChangedArgs e) { }
+
+        protected virtual void OnUserNameCardChanged(object sender, UserNameCardChangedArgs e) { }
+
+        protected virtual void OnReceiveMessage(object sender, NIMReceiveMessageEventArgs e) { }
+
+        protected virtual void OnReceiveSysMsg(object sender, NIMSysMsgEventArgs e) { }
+
+        protected virtual void OnRegMulitiportPushEnableChanged(ResponseCode response, ConfigMultiportPushParam param) { }
+
+        protected virtual void OnRegRecallMessage(ResponseCode result, RecallNotification[] notify) { }
+
+        protected virtual void OnRegReceiveBroadcast(NIMBroadcastMessage msg) { }
+
+        protected virtual void OnRegReceiveBroadcastMsgs(List<NIMBroadcastMessage> msg) { }
+
+        protected virtual void OnIsMultiportPushEnabled(ResponseCode response, ConfigMultiportPushParam param) { }
+
+        protected virtual void OnSetStartNotify(string sessionId, int channelType, string uid, string customInfo)
+        {
+            // NIMSDK_Demo.Rts.RtsHandler.OnReceiveSessionRequest
+        }
+
+        protected virtual void OnRegReceiveBatchMessages(List<NIMReceivedMessage> msgsList) { }
+
+        protected virtual void OnSessionStartRes(long channel_id, int code) { }
+
+        protected virtual void OnSessionInviteNotify(long channel_id, string uid, int mode, long time, string customInfo) { }
+
+        protected virtual void OnSessionCalleeAckRes(long channel_id, int code) { }
+
+        protected virtual void OnSessionCalleeAckNotify(long channel_id, string uid, int mode, bool accept) { }
+
+        protected virtual void OnSessionControlRes(long channel_id, int code, int type) { }
+
+        protected virtual void OnSessionControlNotify(long channel_id, string uid, int type) { }
+
+        protected virtual void OnSessionConnectNotify(long channel_id, int code, string record_file, string video_record_file, long chat_time, ulong chat_rx, ulong chat_tx) { }
+
+        protected virtual void OnSessionMp4InfoStateNotify(long channel_id, int code, NIMVChatMP4State mp4_info) { }
+
+        protected virtual void OnSessionPeopleStatus(long channel_id, string uid, int status) { }
+
+        protected virtual void OnSessionNetStatus(long channel_id, int status, string uid) { }
+
+        protected virtual void OnSessionHangupRes(long channel_id, int code) { }
+
+        protected virtual void OnSessionHangupNotify(long channel_id, int code) { }
+
+        protected virtual void OnSessionSyncAckNotify(long channel_id, int code, string uid, int mode, bool accept, long time, int client) { }
+
+        protected virtual void OnSetAudioReceiveData(ulong time, IntPtr data, uint size, int rate) { }
+
+        protected virtual void OnSetVideoReceiveData(ulong time, IntPtr data, uint size, uint width, uint height, string json_extension) { }
+
+        protected virtual void OnSetVideoCaptureData(ulong time, IntPtr data, uint size, uint width, uint height, string json_extension) { }
+
+        protected virtual void OnAddDeviceStatus(NIMDeviceType type, uint status, string devicePath) { }
+        #endregion
+
+        public virtual void Login(string user, string secret, Action<NIMLoginResult> loginCallback)
+        {
+            if (loginCallback == null)
+            {
+                throw new ArgumentException($"{nameof(loginCallback)} is not null.");
+            }
+
+            var token = ToolsAPI.GetMd5(secret);
+            var sdkConfig = GetSDKConfig();
+            ClientAPI.Login(sdkConfig.AppKey, user, token, result => loginCallback(result));
+        }
+
+        public virtual void Logout(Action<NIMLogoutResult> logoutCallback)
+        {
+            if (logoutCallback == null)
+            {
+                throw new ArgumentException($"{nameof(logoutCallback)} is not null.");
+            }
+
+            ClientAPI.Logout(NIMLogoutType.kNIMLogoutChangeAccout, result => logoutCallback(result));
+        }
+
+        public virtual void ReleaseEventCallbacks()
+        {
+            FriendAPI.FriendProfileChangedHandler -= OnFriendProfileChanged;
+            UserAPI.UserRelationshipListSyncHander -= OnUserRelationshipListSync;
+            UserAPI.UserRelationshipChangedHandler -= OnUserRelationshipChanged;
+            UserAPI.UserNameCardChangedHandler -= OnUserNameCardChanged;
+            TalkAPI.OnReceiveMessageHandler -= OnReceiveMessage;
+            SysMsgAPI.ReceiveSysMsgHandler -= OnReceiveSysMsg;
+        }
+
+        public virtual void RegisterEventCallbacks()
+        {
+            FriendAPI.FriendProfileChangedHandler += OnFriendProfileChanged;
+            UserAPI.UserRelationshipListSyncHander += OnUserRelationshipListSync;
+            UserAPI.UserRelationshipChangedHandler += OnUserRelationshipChanged;
+            UserAPI.UserNameCardChangedHandler += OnUserNameCardChanged;
+            TalkAPI.OnReceiveMessageHandler += OnReceiveMessage;
+            SysMsgAPI.ReceiveSysMsgHandler += OnReceiveSysMsg;
+        }
+
+        public virtual void RegisterCallbacks()
+        {
+            ClientAPI.RegDisconnectedCb(OnRegDisconnected);
+            ClientAPI.RegKickoutCb(OnRegKickout);
+            ClientAPI.RegAutoReloginCb(OnRegAutoRelogin);
+
+            ClientAPI.RegMultiSpotLoginNotifyCb(OnRegMultiSpotLoginNotify);
+            ClientAPI.RegKickOtherClientCb(OnRegKickOtherClient);
+            DataSyncAPI.RegCompleteCb(OnRegComplete);
+
+            NIMSubscribeApi.RegPushEventCb(OnRegPushEvent);
+            NIMSubscribeApi.RegBatchPushEventCb(OnRegBatchPushEvent);
+
+            //RegisterEventCallbacks();
+
+            ClientAPI.RegMulitiportPushEnableChangedCb(OnRegMulitiportPushEnableChanged);
+            TalkAPI.RegRecallMessageCallback(OnRegRecallMessage);
+            TalkAPI.RegReceiveBroadcastCb(OnRegReceiveBroadcast);
+            TalkAPI.RegReceiveBroadcastMsgsCb(OnRegReceiveBroadcastMsgs);
+
+            ClientAPI.IsMultiportPushEnabled(OnIsMultiportPushEnabled);
+
+            RtsAPI.SetStartNotifyCallback(OnSetStartNotify);
+
+            TalkAPI.RegReceiveBatchMessagesCb(OnRegReceiveBatchMessages);
+
+            _vChatSessionStatus.onSessionStartRes = OnSessionStartRes;
+            _vChatSessionStatus.onSessionInviteNotify = OnSessionInviteNotify;
+            _vChatSessionStatus.onSessionCalleeAckRes = OnSessionCalleeAckRes;
+            _vChatSessionStatus.onSessionCalleeAckNotify = OnSessionCalleeAckNotify;
+            _vChatSessionStatus.onSessionControlRes = OnSessionControlRes;
+            _vChatSessionStatus.onSessionControlNotify = OnSessionControlNotify;
+            _vChatSessionStatus.onSessionConnectNotify = OnSessionConnectNotify;
+            _vChatSessionStatus.onSessionMp4InfoStateNotify = OnSessionMp4InfoStateNotify;
+            _vChatSessionStatus.onSessionPeopleStatus = OnSessionPeopleStatus;
+            _vChatSessionStatus.onSessionNetStatus = OnSessionNetStatus;
+            _vChatSessionStatus.onSessionHangupRes = OnSessionHangupRes;
+            _vChatSessionStatus.onSessionHangupNotify = OnSessionHangupNotify;
+            _vChatSessionStatus.onSessionSyncAckNotify = OnSessionSyncAckNotify;
+
+            VChatAPI.SetSessionStatusCb(_vChatSessionStatus);
+            //DeviceAPI.SetAudioReceiveDataCb(OnSetAudioReceiveData, null);
+            DeviceAPI.SetAudioReceiveDataCb((time, data, size, rate) => { }, null);
+            DeviceAPI.SetVideoReceiveDataCb(OnSetVideoReceiveData, null);
+            DeviceAPI.SetVideoCaptureDataCb(OnSetVideoCaptureData, null);
+
+            DeviceAPI.AddDeviceStatusCb(NIMDeviceType.kNIMDeviceTypeVideo, OnAddDeviceStatus);
         }
     }
 }

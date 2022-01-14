@@ -1,6 +1,9 @@
 ﻿using Desktop.Samples.Common;
+using Desktop.Samples.Common.Events;
+using Desktop.Samples.Common.YunXinSDKs;
 using Desktop.Samples.Modules.Test.Views;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
@@ -14,6 +17,8 @@ namespace Desktop.Samples.Modules.Test.ViewModels
     {
         private readonly ILoggerFacade _logger;
         private readonly IRegionManager _region;
+        private readonly IEventAggregator _event;
+        private YunXinService _yunxin;
 
         public DelegateCommand<UserControl> LoadedCommand
         {
@@ -25,18 +30,32 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             get => new DelegateCommand(OnGoToLogin);
         }
 
+        public DelegateCommand LogoutCommand
+        {
+            get => new DelegateCommand(OnLogout);
+        }
+
         public HomeViewModel(
+            YunXinService yunxin,
+            IEventAggregator @event,
             IRegionManager region,
             ILoggerFacade logger)
         {
-            _region = region ?? throw new ArgumentNullException(nameof(region));
+            _yunxin = yunxin ?? throw new ArgumentNullException(nameof(yunxin));
+            _yunxin.RegisterCallbacks();
 
+            _event = @event ?? throw new ArgumentNullException(nameof(@event));
+            _region = region ?? throw new ArgumentNullException(nameof(region));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logger?.Debug($"{GetType().FullName} ... ctor.");
         }
 
         private void OnLoaded(UserControl control)
         {
+            _event.PublishExitByLoginStatusEvent(true);
+
+            _yunxin.RegisterEventCallbacks();
+
             _logger.Debug($"{GetType().Name} ... {nameof(OnLoaded)} ... {nameof(control)}:{control?.GetType().Name}.");
         }
 
@@ -46,6 +65,24 @@ namespace Desktop.Samples.Modules.Test.ViewModels
                 TestRegionNames.TestHome,
                 new Uri(typeof(LoginView).FullName, UriKind.Relative),
                 navigationResult => { });
+        }
+
+        private void OnLogout()
+        {
+            _yunxin.Logout(logoutResult =>
+            {
+                _event.PublishExitByLoginStatusEvent(false);
+
+                _yunxin.ReleaseEventCallbacks();
+
+                MainDispatcher.Instance.Invoke(() =>
+                {
+                    _region.RequestNavigate(
+                        TestRegionNames.TestHome,
+                        new Uri(typeof(LoginView).FullName, UriKind.Relative),
+                        navigationResult => { });
+                });
+            });
         }
 
         #region INavigationAware

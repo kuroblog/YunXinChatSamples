@@ -1,5 +1,7 @@
 ﻿using Desktop.Samples.Common;
+using Desktop.Samples.Common.Events;
 using Desktop.Samples.Common.YunXinSDKs;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Unity;
 using System;
@@ -13,6 +15,7 @@ namespace Desktop.Samples.Shell
     {
         private ILoggerFacade _logger;
         private YunXinService _yunxin;
+        private bool _loginStatus;
 
         public App()
         {
@@ -63,7 +66,8 @@ namespace Desktop.Samples.Shell
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-            _yunxin?.Clean();
+            _yunxin?.Clean(_loginStatus);
+            //_yunxin?.Clean();
 
             _logger.Debug($"{GetType().Name} ... {nameof(OnExit)}.");
         }
@@ -76,6 +80,13 @@ namespace Desktop.Samples.Shell
 
             var bootstrapper = new ShellBootstrapper();
             bootstrapper.Run();
+
+            var @event = bootstrapper.Container.Resolve<IEventAggregator>();
+            if (@event == null)
+            {
+                throw new ArgumentException($"{nameof(IEventAggregator)} resolve failed.");
+            }
+            @event.SubscribeExitByLoginStatusEvent(status => _loginStatus = status);
 
             _yunxin = bootstrapper.Container.Resolve<YunXinService>();
             if (_yunxin == null)
