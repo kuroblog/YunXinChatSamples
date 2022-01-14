@@ -121,6 +121,14 @@
       <Project>{215a7663-3fd7-4515-9a1f-909cc265a02b}</Project>
       <Name>Desktop.Samples.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YunXinSDKs\Core\NimCore.csproj">
+      <Project>{3f88dd96-1392-409a-89e8-475fc56e4647}</Project>
+      <Name>NimCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YunXinSDKs\Utility\NimUtility.csproj">
+      <Project>{a9141f3e-b530-49ee-b959-16a49e1c98b1}</Project>
+      <Name>NimUtility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
