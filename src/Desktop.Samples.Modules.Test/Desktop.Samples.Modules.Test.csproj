@@ -93,11 +93,16 @@
     </Compile>
     <Compile Include="TestModule.cs" />
     <Compile Include="TestRegionNames.cs" />
+    <Compile Include="ViewModels\ApiTestViewModel.cs" />
+    <Compile Include="Services\ApiService.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
+    <Compile Include="Views\ApiTestView.xaml.cs">
+      <DependentUpon>ApiTestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FriendView.xaml.cs">
       <DependentUpon>FriendView.xaml</DependentUpon>
     </Compile>
@@ -140,6 +145,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\ApiTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FriendView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,4 +1,5 @@
 ﻿using Desktop.Samples.Common;
+using Desktop.Samples.Modules.Test.Services;
 using Desktop.Samples.Modules.Test.Views;
 using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.Modularity;
@@ -28,13 +29,17 @@ namespace Desktop.Samples.Modules.Test
 
         public void Initialize()
         {
+            //_region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<LoginView>());
+            _region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<ApiTestView>());
+
             _region.RegisterViewWithRegion(RegionNames.Main, () => _container.Resolve<MainView>());
-            _region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<LoginView>());
 
             _container.RegisterType<object, HomeView>(typeof(HomeView).FullName, new PerResolveLifetimeManager());
 
             _container.RegisterType<object, FriendView>(typeof(FriendView).FullName, new PerResolveLifetimeManager());
             _container.RegisterType<object, SessionView>(typeof(SessionView).FullName, new PerResolveLifetimeManager());
+
+            _container.RegisterType<ApiService>(new ContainerControlledLifetimeManager());
 
             _logger?.Debug($"{GetType().Name} ... {nameof(Initialize)}.");
         }
