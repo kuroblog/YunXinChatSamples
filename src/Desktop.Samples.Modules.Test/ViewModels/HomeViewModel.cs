@@ -35,6 +35,16 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             get => new DelegateCommand(OnLogout);
         }
 
+        public DelegateCommand NavigationToFriendViewCommand
+        {
+            get => new DelegateCommand(() => OnNavigationToView(typeof(FriendView).FullName));
+        }
+
+        public DelegateCommand NavigationToSessionViewCommand
+        {
+            get => new DelegateCommand(() => OnNavigationToView(typeof(SessionView).FullName));
+        }
+
         public HomeViewModel(
             YunXinService yunxin,
             IEventAggregator @event,
@@ -82,6 +92,17 @@ namespace Desktop.Samples.Modules.Test.ViewModels
                         new Uri(typeof(LoginView).FullName, UriKind.Relative),
                         navigationResult => { });
                 });
+            });
+        }
+
+        private void OnNavigationToView(string viewName)
+        {
+            MainDispatcher.Instance.Invoke(() =>
+            {
+                _region.RequestNavigate(
+                    TestRegionNames.TestContent,
+                    new Uri(viewName, UriKind.Relative),
+                    navigationResult => { });
             });
         }
 

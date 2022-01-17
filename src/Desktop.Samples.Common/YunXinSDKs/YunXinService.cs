@@ -322,5 +322,15 @@ namespace Desktop.Samples.Common.YunXinSDKs
 
             DeviceAPI.AddDeviceStatusCb(NIMDeviceType.kNIMDeviceTypeVideo, OnAddDeviceStatus);
         }
+
+        public virtual void GetFriends(Action<NIMFriends> getFriendsCallback)
+        {
+            if (getFriendsCallback == null)
+            {
+                throw new ArgumentException($"{nameof(getFriendsCallback)} is not null.");
+            }
+
+            FriendAPI.GetFriendsList(result => getFriendsCallback(result));
+        }
     }
 }
