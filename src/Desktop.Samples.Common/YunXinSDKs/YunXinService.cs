@@ -162,11 +162,20 @@ namespace Desktop.Samples.Common.YunXinSDKs
 
         protected virtual void OnRegKickOtherClient(NIMKickOtherResult result) { }
 
-        protected virtual void OnRegComplete(NIMDataSyncType syncType, NIMDataSyncStatus status, string jsonAttachment) { }
+        protected virtual void OnRegComplete(NIMDataSyncType syncType, NIMDataSyncStatus status, string jsonAttachment)
+        {
+            _logger.Debug($"... result:{new { syncType, status, jsonAttachment }.ToJson(true)}");
+        }
 
-        protected virtual void OnRegPushEvent(ResponseCode code, NIMEventInfo info) { }
+        protected virtual void OnRegPushEvent(ResponseCode code, NIMEventInfo info)
+        {
+            _logger.Debug($"... result:{new { code, info }.ToJson(true)}");
+        }
 
-        protected virtual void OnRegBatchPushEvent(ResponseCode code, List<NIMEventInfo> infoList) { }
+        protected virtual void OnRegBatchPushEvent(ResponseCode code, List<NIMEventInfo> infoList)
+        {
+            _logger.Debug($"... result:{new { code, infoList }.ToJson(true)}");
+        }
 
         protected virtual void OnFriendProfileChanged(object sender, NIMFriendProfileChangedArgs e) { }
 
