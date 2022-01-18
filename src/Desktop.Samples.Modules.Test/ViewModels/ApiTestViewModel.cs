@@ -55,10 +55,13 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         public void OnApiTest()
         {
             var result1 = _api.SendCode();
+            _logger.Debug($"... result:{result1.ToJson(true)}");
 
             var result2 = _api.LoginWithSmsCode();
+            _logger.Debug($"... result:{result2.ToJson(true)}");
 
             var result3 = _api.GetToken(result2.data.loginCode);
+            _logger.Debug($"... result:{result3.ToJson(true)}");
         }
     }
 }

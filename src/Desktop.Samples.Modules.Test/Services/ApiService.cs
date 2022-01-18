@@ -123,6 +123,19 @@ namespace Desktop.Samples.Modules.Test.Services
 
             try
             {
+                var requestLog = new
+                {
+                    requestUri,
+                    requestBody,
+                    requestMethod,
+                    requestArgs,
+                    requestHeaders,
+                    contentType,
+                    encoding,
+                    timeout
+                }.ToJson();
+                _logger.Debug($"{GetType().Name} ... {nameof(RequestTo)} ... request:{requestLog}.");
+
                 SetSecurityProtocol(requestUri);
 
                 requestUri = GetUriWithQueryaParams(requestUri, requestArgs);
@@ -140,6 +153,7 @@ namespace Desktop.Samples.Modules.Test.Services
                         using (var reader = new StreamReader(stream))
                         {
                             responseContent = reader.ReadToEnd();
+                            _logger.Debug($"{GetType().Name} ... {nameof(RequestTo)} ... response:{responseContent}.");
                         }
                     }
                 }
