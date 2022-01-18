@@ -92,6 +92,17 @@ namespace Desktop.Samples.Modules.Test.ViewModels
                     BindingFriends(friends);
                 });
 
+                _yunxin.GetUserProfiles(
+                    friend?.ProfileList?.Select(f => f.AccountId)?.ToList(),
+                    userCards =>
+                    {
+                        userCards?.ToList().ForEach(u =>
+                        {
+                            var fProfile = Friends.FirstOrDefault(f => f.Id == u.AccountId);
+                            fProfile.NickName = u.NickName;
+                        });
+                    });
+
                 _logger.Debug($"... {nameof(friend)}:{friend.ToJson(true)}");
             });
 

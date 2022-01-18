@@ -8,6 +8,7 @@ namespace Desktop.Samples.Modules.Test.Models
         private string _secret;
         private string _alias;
         private bool _isOnline;
+        private string _nickName;
 
         public string Id
         {
@@ -46,6 +47,16 @@ namespace Desktop.Samples.Modules.Test.Models
             {
                 _isOnline = value;
                 RaisePropertyChanged(() => IsOnline);
+            }
+        }
+
+        public string NickName
+        {
+            get => _nickName;
+            set
+            {
+                _nickName = value;
+                RaisePropertyChanged(() => NickName);
             }
         }
     }

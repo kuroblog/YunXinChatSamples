@@ -350,7 +350,7 @@ namespace Desktop.Samples.Common.YunXinSDKs
             DeviceAPI.AddDeviceStatusCb(NIMDeviceType.kNIMDeviceTypeVideo, OnAddDeviceStatus);
         }
 
-        protected List<NIMFriendProfile> _nimFriends = new List<NIMFriendProfile>();
+        protected NIMFriendProfile[] _nimFriends;
 
         public virtual void GetFriends(Action<NIMFriends> getFriendsCallback)
         {
@@ -361,14 +361,35 @@ namespace Desktop.Samples.Common.YunXinSDKs
 
             FriendAPI.GetFriendsList(result =>
             {
-                _nimFriends.Clear();
                 if (result != null && result.ProfileList != null && result.ProfileList.Any())
                 {
-                    _nimFriends.AddRange(result.ProfileList.AsEnumerable());
+                    _nimFriends = result.ProfileList.ToArray();
                 }
 
                 getFriendsCallback(result);
             });
+        }
+
+        protected UserNameCard[] _nimUserCards;
+
+        public virtual void GetUserProfiles(List<string> users, Action<UserNameCard[]> getUserProfilesCallback)
+        {
+            if (getUserProfilesCallback == null)
+            {
+                throw new ArgumentException($"{nameof(getUserProfilesCallback)} is not null.");
+            }
+
+            UserAPI.GetUserNameCard(
+                users,
+                result =>
+                {
+                    if (result != null)
+                    {
+                        _nimUserCards = result;
+                    }
+
+                    getUserProfilesCallback(result);
+                });
         }
     }
 }

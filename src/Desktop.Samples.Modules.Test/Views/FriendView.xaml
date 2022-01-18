@@ -36,14 +36,14 @@
         <ListBox Grid.Column="0" ItemsSource="{Binding Friends}" SelectedItem="{Binding SelectedFriend, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Margin="5,1,1,2">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Name="IdTextBlock" Grid.Row="0" Text="{Binding Id}"/>
-                        <TextBlock Name="AliasTextBlock" Grid.Row="1" Text="{Binding Alias}"/>
+                        <TextBlock Name="IdTextBlock" Grid.Row="0" Text="{Binding Id}" FontSize="9"/>
+                        <TextBlock Name="AliasTextBlock" Grid.Row="1" Text="{Binding NickName}"/>
                     </Grid>
 
                     <DataTemplate.Triggers>

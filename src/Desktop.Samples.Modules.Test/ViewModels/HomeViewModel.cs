@@ -9,6 +9,7 @@ using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace Desktop.Samples.Modules.Test.ViewModels
@@ -19,6 +20,19 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         private readonly IRegionManager _region;
         private readonly IEventAggregator _event;
         private YunXinService _yunxin;
+        private string _loginId;
+
+        private string _loginName;
+
+        public string LoginName
+        {
+            get => _loginName;
+            set
+            {
+                _loginName = value;
+                RaisePropertyChanged(() => LoginName);
+            }
+        }
 
         public DelegateCommand<UserControl> LoadedCommand
         {
@@ -65,6 +79,18 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             _event.PublishExitByLoginStatusEvent(true);
 
             _yunxin.RegisterEventCallbacks();
+
+            _yunxin.GetUserProfiles(new List<string> { _loginId }, userCards =>
+            {
+                MainDispatcher.Instance.Invoke(() =>
+                {
+                    var userCard = userCards?.FirstOrDefault(u => u.AccountId == _loginId);
+
+                    LoginName = userCard == null ? _loginId : string.IsNullOrEmpty(userCard.NickName) ? _loginId : userCard.NickName;
+                });
+
+                _logger.Debug($"... {nameof(userCards)}:{userCards.ToFormatJson()}");
+            });
 
             _logger.Debug($"{GetType().Name} ... {nameof(OnLoaded)} ... {nameof(control)}:{control?.GetType().Name}.");
         }
@@ -120,6 +146,8 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             {
                 var dict = navigationContext.NavigationService.Region.Context.ToString().ParseTo<Dictionary<string, string>>();
                 dict.TryGetValue(GetType().FullName, out navigationDictArgsJson);
+
+                dict.TryGetValue("LoginId", out _loginId);
 
                 _logger.Debug($"{GetType().Name} ... {nameof(OnNavigatedTo)} ... {nameof(navigationDictArgsJson)}:{navigationDictArgsJson}.");
             }

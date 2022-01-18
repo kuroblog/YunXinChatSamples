@@ -48,6 +48,9 @@
                 Padding="5,1"/>-->
 
         <StackPanel DockPanel.Dock="Top" Margin="5,1" Orientation="Horizontal">
+
+            <TextBlock Text="{Binding LoginName}" FontWeight="Bold" VerticalAlignment="Center" Margin="5,1"/>
+
             <Button Content="logout" 
                     Style="{DynamicResource CommandButtonStyle}"
                     Command="{Binding LogoutCommand}"/>

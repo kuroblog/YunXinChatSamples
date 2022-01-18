@@ -175,7 +175,9 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            var navigationDictArgs = new Dictionary<string, string> { { typeof(HomeViewModel).FullName, "go to home" } }.ToJson();
+            var navigationDictArgs = new Dictionary<string, string> {
+                { typeof(HomeViewModel).FullName, "go to home" },
+                { "LoginId", Login.LoginId } }.ToJson();
             navigationContext.NavigationService.Region.Context = navigationDictArgs;
 
             _logger.Debug($"{GetType().Name} ... {nameof(OnNavigatedFrom)} ... {nameof(navigationDictArgs)}:{navigationDictArgs}.");
