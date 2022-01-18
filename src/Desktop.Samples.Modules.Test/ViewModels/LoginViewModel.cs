@@ -16,6 +16,10 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 {
     public class LoginViewModel : NotificationObject, INavigationAware
     {
+#if DEBUG
+        public LoginViewModel() { }
+#endif
+
         private readonly ILoggerFacade _logger;
         private readonly IRegionManager _region;
         private LoginInfo _login;
@@ -57,6 +61,11 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         //{
         //    get => new DelegateCommand(OnLogin, CanLogin);
         //}
+
+        public DelegateCommand NavigationToApiTestViewCommand
+        {
+            get => new DelegateCommand(() => OnNavigationToView(typeof(ApiTestView).FullName));
+        }
 
         public LoginViewModel(
             YunXinService yunxin,
@@ -147,6 +156,17 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             {
                 _yunxin.SetProxy(_proxy.Type.Type, _proxy.IP, _proxy.Port, _proxy.User, _proxy.Secret);
             }
+        }
+
+        private void OnNavigationToView(string viewName)
+        {
+            MainDispatcher.Instance.Invoke(() =>
+            {
+                _region.RequestNavigate(
+                    TestRegionNames.TestHome,
+                    new Uri(viewName, UriKind.Relative),
+                    navigationResult => { });
+            });
         }
 
         #region INavigationAware

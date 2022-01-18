@@ -27,7 +27,8 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid>
+    <StackPanel Orientation="Horizontal">
         <Button Padding="5,1" Content="api test" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,1" Command="{Binding ApiTestCommand}"/>
-    </Grid>
+        <Button Padding="5,1" Content="to home view" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,1" Command="{Binding NavigationToLoginViewCommand}"/>
+    </StackPanel>
 </UserControl>

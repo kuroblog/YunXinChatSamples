@@ -11,7 +11,7 @@
              xmlns:beh="clr-namespace:Desktop.Samples.Common.Behaviors;assembly=Desktop.Samples.Common"
              xmlns:ms="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=vm:LoginViewModel, IsDesignTimeCreatable=False}">
+             d:DataContext="{d:DesignInstance Type=vm:LoginViewModel, IsDesignTimeCreatable=True}">
 
     <d:DesignProperties.DesignStyle>
         <Style TargetType="UserControl">
@@ -43,6 +43,10 @@
                 Padding="5,1"/>-->
 
         <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="1">
+                <Button Content="test api view" Margin="1" Padding="5,1" Command="{Binding NavigationToApiTestViewCommand}"/>
+            </StackPanel>
+
             <Grid DockPanel.Dock="Top"
                   HorizontalAlignment="Left"
                   Margin="1"

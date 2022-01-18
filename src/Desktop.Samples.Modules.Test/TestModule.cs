@@ -29,10 +29,11 @@ namespace Desktop.Samples.Modules.Test
 
         public void Initialize()
         {
-            //_region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<LoginView>());
-            _region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<ApiTestView>());
-
             _region.RegisterViewWithRegion(RegionNames.Main, () => _container.Resolve<MainView>());
+
+            _region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<LoginView>());
+            //_region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<ApiTestView>());
+            _container.RegisterType<object, ApiTestView>(typeof(ApiTestView).FullName, new PerResolveLifetimeManager());
 
             _container.RegisterType<object, HomeView>(typeof(HomeView).FullName, new PerResolveLifetimeManager());
 

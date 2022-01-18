@@ -1,8 +1,10 @@
 ﻿using Desktop.Samples.Common;
 using Desktop.Samples.Common.YunXinSDKs;
 using Desktop.Samples.Modules.Test.Services;
+using Desktop.Samples.Modules.Test.Views;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Logging;
+using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace Desktop.Samples.Modules.Test.ViewModels
     public class ApiTestViewModel : NotificationObject
     {
         private readonly ILoggerFacade _logger;
+        private readonly IRegionManager _region;
         private YunXinService _yunxin;
         private ApiService _api;
 
@@ -31,13 +34,20 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             get => new DelegateCommand(OnApiTest);
         }
 
+        public DelegateCommand NavigationToLoginViewCommand
+        {
+            get => new DelegateCommand(() => OnNavigationToView(typeof(LoginView).FullName));
+        }
+
         public ApiTestViewModel(
             ApiService api,
             YunXinService yunxin,
+            IRegionManager region,
             ILoggerFacade logger)
         {
             _api = api ?? throw new ArgumentNullException(nameof(api));
             _yunxin = yunxin ?? throw new ArgumentNullException(nameof(yunxin));
+            _region = region ?? throw new ArgumentNullException(nameof(region));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logger?.Debug($"{GetType().FullName} ... ctor.");
         }
@@ -62,6 +72,17 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
             var result3 = _api.GetToken(result2.data.loginCode);
             _logger.Debug($"... result:{result3.ToJson(true)}");
+        }
+
+        private void OnNavigationToView(string viewName)
+        {
+            MainDispatcher.Instance.Invoke(() =>
+            {
+                _region.RequestNavigate(
+                    TestRegionNames.TestHome,
+                    new Uri(viewName, UriKind.Relative),
+                    navigationResult => { });
+            });
         }
     }
 }
