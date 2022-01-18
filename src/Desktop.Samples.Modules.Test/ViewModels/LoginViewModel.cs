@@ -1,5 +1,6 @@
 ﻿using Desktop.Samples.Common;
 using Desktop.Samples.Common.YunXinSDKs;
+using Desktop.Samples.Modules.Test.Models;
 using Desktop.Samples.Modules.Test.Properties;
 using Desktop.Samples.Modules.Test.Views;
 using Microsoft.Practices.Prism.Commands;
@@ -22,12 +23,12 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
         private readonly ILoggerFacade _logger;
         private readonly IRegionManager _region;
-        private LoginInfo _login;
-        private ProxyInfo _proxy;
+        private UserLoginViewModel _login;
+        private UserProxyViewModel _proxy;
         private YunXinService _yunxin;
         private LoginProfile _loginProfile = new LoginProfile();
 
-        public ProxyInfo Proxy
+        public UserProxyViewModel Proxy
         {
             get => _proxy;
             set
@@ -37,7 +38,7 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             }
         }
 
-        public LoginInfo Login
+        public UserLoginViewModel Login
         {
             get => _login;
             set
@@ -72,12 +73,12 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             IRegionManager region,
             ILoggerFacade logger)
         {
-            _login = new LoginInfo
+            _login = new UserLoginViewModel
             {
                 LoginCommand = new DelegateCommand(OnLogin, CanLogin)
             };
 
-            _proxy = new ProxyInfo
+            _proxy = new UserProxyViewModel
             {
                 SetProxyCommand = new DelegateCommand(OnSetProxy)
             };
@@ -90,7 +91,7 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
         private void OnLoaded(UserControl control)
         {
-            void SetLogin(LoginInfo login)
+            void SetLogin(UserLoginViewModel login)
             {
                 _loginProfile.FromSettings();
 
@@ -186,7 +187,7 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         #endregion
     }
 
-    public class LoginInfo : NotificationObject
+    public class UserLoginViewModel : NotificationObject
     {
         private string _loginId;
 
@@ -219,7 +220,7 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         public DelegateCommand LoginCommand { get; set; }
     }
 
-    public class ProxyInfo : NotificationObject
+    public class UserProxyViewModel : NotificationObject
     {
         private bool _enableProxy = false;
         private string _ip = "127.0.0.1";
@@ -312,7 +313,7 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
         public DelegateCommand SetProxyCommand { get; set; }
 
-        public ProxyInfo()
+        public UserProxyViewModel()
         {
             _type = _proxyTypes.FirstOrDefault();
         }
@@ -323,80 +324,5 @@ namespace Desktop.Samples.Modules.Test.ViewModels
         public string Desc { get; set; }
 
         public NIM.NIMProxyType Type { get; set; }
-    }
-
-    public class UserProfile
-    {
-        public string Id { get; set; }
-
-        public string Secret { get; set; }
-    }
-
-    public class LoginProfile
-    {
-        public List<UserProfile> Users { get; set; }
-
-        public UserProfile Login { get; set; }
-    }
-
-    public static class LoginProfileExtensions
-    {
-        public static void FromSettings(this LoginProfile login)
-        {
-            var settingsLoginProfile = Settings.Default.LoginProfile.ParseTo<LoginProfile>();
-            if (settingsLoginProfile == null)
-            {
-                settingsLoginProfile = new LoginProfile { };
-            }
-
-            if (settingsLoginProfile.Users == null)
-            {
-                settingsLoginProfile.Users = new List<UserProfile> { };
-            }
-
-            if (settingsLoginProfile.Login == null)
-            {
-                settingsLoginProfile.Login = new UserProfile
-                {
-#if DEBUG
-                    Id = "wearebest",
-                    Secret = "123456"
-#endif
-                };
-            }
-
-            login.Login = settingsLoginProfile.Login;
-            login.Users = settingsLoginProfile.Users;
-        }
-
-        public static void SaveLogin(this LoginProfile login, string id, string secret)
-        {
-            login.Login = new UserProfile { Id = id, Secret = secret };
-
-            var userProfiles = login.Users.Where(user => user.Id == login.Login.Id)?.ToList();
-            if (userProfiles == null || !userProfiles.Any())
-            {
-                login.Users.Add(login.Login);
-            }
-            else
-            {
-                userProfiles.ForEach(user => user.Secret = login.Login.Secret);
-            }
-
-            Settings.Default.LoginProfile = login.ToJson();
-            Settings.Default.Save();
-        }
-
-        public static void Clear(this LoginProfile login)
-        {
-            login = new LoginProfile
-            {
-                Login = new UserProfile { },
-                Users = new List<UserProfile> { }
-            };
-
-            Settings.Default.LoginProfile = login.ToJson();
-            Settings.Default.Save();
-        }
     }
 }

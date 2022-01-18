@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using Desktop.Samples.Common.Events;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.ViewModel;
 using Newtonsoft.Json.Linq;
@@ -167,8 +168,25 @@ namespace Desktop.Samples.Common.YunXinSDKs
             _logger.Debug($"... result:{new { syncType, status, jsonAttachment }.ToJson(true)}");
         }
 
+        class YunXinUserOnlineConfig
+        {
+            public List<NIMClientType> online { get; set; }
+        }
+
         protected virtual void OnRegPushEvent(ResponseCode code, NIMEventInfo info)
         {
+            if (code == ResponseCode.kNIMResSuccess)
+            {
+                if (info.Type == 1)
+                {
+                    var config = info.NimConfig.ParseTo<YunXinUserOnlineConfig>();
+                    var userId = info.PublisherID;
+                    var isOnline = config == null ? false : config.online == null ? false : config.online.Count > 0;
+
+                    _event.PublishYunXinUserOnlineEvent(new YunXinUserOnlineEventArgs { UserId = userId, IsOnline = isOnline });
+                }
+            }
+
             _logger.Debug($"... result:{new { code, info }.ToJson(true)}");
         }
 
@@ -332,6 +350,8 @@ namespace Desktop.Samples.Common.YunXinSDKs
             DeviceAPI.AddDeviceStatusCb(NIMDeviceType.kNIMDeviceTypeVideo, OnAddDeviceStatus);
         }
 
+        protected List<NIMFriendProfile> _nimFriends = new List<NIMFriendProfile>();
+
         public virtual void GetFriends(Action<NIMFriends> getFriendsCallback)
         {
             if (getFriendsCallback == null)
@@ -339,7 +359,16 @@ namespace Desktop.Samples.Common.YunXinSDKs
                 throw new ArgumentException($"{nameof(getFriendsCallback)} is not null.");
             }
 
-            FriendAPI.GetFriendsList(result => getFriendsCallback(result));
+            FriendAPI.GetFriendsList(result =>
+            {
+                _nimFriends.Clear();
+                if (result != null && result.ProfileList != null && result.ProfileList.Any())
+                {
+                    _nimFriends.AddRange(result.ProfileList.AsEnumerable());
+                }
+
+                getFriendsCallback(result);
+            });
         }
     }
 }

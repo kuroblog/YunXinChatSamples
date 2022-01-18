@@ -97,9 +97,11 @@
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="Models\LoginProfile.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Views\ApiTestView.xaml.cs">
       <DependentUpon>ApiTestView.xaml</DependentUpon>
     </Compile>

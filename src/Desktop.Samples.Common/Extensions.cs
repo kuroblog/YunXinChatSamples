@@ -7,6 +7,8 @@ namespace Desktop.Samples.Common
         public static string ToJson<T>(this T obj, bool isFormatting = false) =>
             JsonConvert.SerializeObject(obj, isFormatting ? Formatting.Indented : Formatting.None);
 
+        public static string ToFormatJson<T>(this T obj) => obj.ToJson(true);
+
         public static T ParseTo<T>(this string json) => JsonConvert.DeserializeObject<T>(json);
     }
 }

@@ -146,14 +146,21 @@ namespace Desktop.Samples.Modules.Test.Services
 
                 SetRequestBody(request, requestBody, encoding);
 
-                using (var response = request.GetResponse())
+                using (var response = request.GetResponse() as HttpWebResponse)
                 {
                     using (var stream = response.GetResponseStream())
                     {
                         using (var reader = new StreamReader(stream))
                         {
                             responseContent = reader.ReadToEnd();
-                            _logger.Debug($"{GetType().Name} ... {nameof(RequestTo)} ... response:{responseContent}.");
+
+                            var responseLog = new
+                            {
+                                statusCode = response.StatusCode,
+                                desc = response.StatusDescription,
+                                content = responseContent
+                            }.ToJson();
+                            _logger.Debug($"{GetType().Name} ... {nameof(RequestTo)} ... response:{responseLog}.");
                         }
                     }
                 }

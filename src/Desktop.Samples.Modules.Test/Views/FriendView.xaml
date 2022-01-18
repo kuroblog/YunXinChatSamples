@@ -28,6 +28,64 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <TextBlock Text="friend"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox Grid.Column="0" ItemsSource="{Binding Friends}" SelectedItem="{Binding SelectedFriend, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Name="IdTextBlock" Grid.Row="0" Text="{Binding Id}"/>
+                        <TextBlock Name="AliasTextBlock" Grid.Row="1" Text="{Binding Alias}"/>
+                    </Grid>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsOnline}" Value="true">
+                            <Setter TargetName="IdTextBlock" Property="TextBlock.Foreground" Value="#FF000000"/>
+                            <Setter TargetName="AliasTextBlock" Property="TextBlock.Foreground" Value="#FF000000"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsOnline}" Value="false">
+                            <Setter TargetName="IdTextBlock" Property="TextBlock.Foreground" Value="#FFC0C0C0"/>
+                            <Setter TargetName="AliasTextBlock" Property="TextBlock.Foreground" Value="#FFC0C0C0"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" 
+                       VerticalAlignment="Center"
+                       Margin="1,1,5,1"
+                       Text="Id"/>
+            <TextBlock Grid.Row="2" 
+                       VerticalAlignment="Center"
+                       Margin="1,1,5,1"
+                       Text="Alias"/>
+
+            <TextBox Grid.Row="1" 
+                     VerticalAlignment="Center" 
+                     Margin="1" 
+                     IsReadOnly="True"
+                     Text="{Binding SelectedFriend.Id}"/>
+
+            <TextBox Grid.Row="3" VerticalAlignment="Center" Margin="1"
+                     Text="{Binding SelectedFriend.Alias, Mode=TwoWay}"/>
+        </Grid>
+
     </Grid>
 </UserControl>

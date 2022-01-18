@@ -54,11 +54,6 @@ namespace Desktop.Samples.Modules.Test.ViewModels
 
         private void OnLoaded(UserControl control)
         {
-            _yunxin.GetFriends(friend =>
-            {
-                _logger.Debug($"... {nameof(friend)}:{friend.ToJson(true)}");
-            });
-
             _logger.Debug($"{GetType().Name} ... {nameof(OnLoaded)} ... {nameof(control)}:{control?.GetType().Name}.");
         }
 
