@@ -68,6 +68,10 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             _yunxin = yunxin ?? throw new ArgumentNullException(nameof(yunxin));
             _yunxin.RegisterCallbacks();
 
+            //NIM.NIMSubscribeApi.RegBatchPushEventCb((x, y) =>
+            //{
+            //});
+
             _event = @event ?? throw new ArgumentNullException(nameof(@event));
             _region = region ?? throw new ArgumentNullException(nameof(region));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

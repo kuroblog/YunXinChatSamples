@@ -173,25 +173,35 @@ namespace Desktop.Samples.Common.YunXinSDKs
             public List<NIMClientType> online { get; set; }
         }
 
-        protected virtual void OnRegPushEvent(ResponseCode code, NIMEventInfo info)
+        private void NIMEventInfoHandler(NIMEventInfo info)
+        {
+            if (info.Type == 1)
+            {
+                var config = info.NimConfig.ParseTo<YunXinUserOnlineConfig>();
+                var userId = info.PublisherID;
+                var isOnline = config == null ? false : config.online == null ? false : config.online.Count > 0;
+
+                _event.PublishYunXinUserOnlineEvent(new YunXinUserOnlineEventArgs { UserId = userId, IsOnline = isOnline });
+            }
+        }
+
+        private void OnRegPushEvent(ResponseCode code, NIMEventInfo info)
         {
             if (code == ResponseCode.kNIMResSuccess)
             {
-                if (info.Type == 1)
-                {
-                    var config = info.NimConfig.ParseTo<YunXinUserOnlineConfig>();
-                    var userId = info.PublisherID;
-                    var isOnline = config == null ? false : config.online == null ? false : config.online.Count > 0;
-
-                    _event.PublishYunXinUserOnlineEvent(new YunXinUserOnlineEventArgs { UserId = userId, IsOnline = isOnline });
-                }
+                NIMEventInfoHandler(info);
             }
 
             _logger.Debug($"... result:{new { code, info }.ToJson(true)}");
         }
 
-        protected virtual void OnRegBatchPushEvent(ResponseCode code, List<NIMEventInfo> infoList)
+        private void OnRegBatchPushEvent(ResponseCode code, List<NIMEventInfo> infoList)
         {
+            if (code == ResponseCode.kNIMResSuccess)
+            {
+                infoList?.ForEach(i => NIMEventInfoHandler(i));
+            }
+
             _logger.Debug($"... result:{new { code, infoList }.ToJson(true)}");
         }
 
@@ -303,51 +313,51 @@ namespace Desktop.Samples.Common.YunXinSDKs
 
         public virtual void RegisterCallbacks()
         {
-            ClientAPI.RegDisconnectedCb(OnRegDisconnected);
-            ClientAPI.RegKickoutCb(OnRegKickout);
-            ClientAPI.RegAutoReloginCb(OnRegAutoRelogin);
+            //ClientAPI.RegDisconnectedCb(OnRegDisconnected);
+            //ClientAPI.RegKickoutCb(OnRegKickout);
+            //ClientAPI.RegAutoReloginCb(OnRegAutoRelogin);
 
-            ClientAPI.RegMultiSpotLoginNotifyCb(OnRegMultiSpotLoginNotify);
-            ClientAPI.RegKickOtherClientCb(OnRegKickOtherClient);
-            DataSyncAPI.RegCompleteCb(OnRegComplete);
+            //ClientAPI.RegMultiSpotLoginNotifyCb(OnRegMultiSpotLoginNotify);
+            //ClientAPI.RegKickOtherClientCb(OnRegKickOtherClient);
+            //DataSyncAPI.RegCompleteCb(OnRegComplete);
 
-            NIMSubscribeApi.RegPushEventCb(OnRegPushEvent);
+            //NIMSubscribeApi.RegPushEventCb(OnRegPushEvent);
             NIMSubscribeApi.RegBatchPushEventCb(OnRegBatchPushEvent);
 
-            //RegisterEventCallbacks();
+            ////RegisterEventCallbacks();
 
-            ClientAPI.RegMulitiportPushEnableChangedCb(OnRegMulitiportPushEnableChanged);
-            TalkAPI.RegRecallMessageCallback(OnRegRecallMessage);
-            TalkAPI.RegReceiveBroadcastCb(OnRegReceiveBroadcast);
-            TalkAPI.RegReceiveBroadcastMsgsCb(OnRegReceiveBroadcastMsgs);
+            //ClientAPI.RegMulitiportPushEnableChangedCb(OnRegMulitiportPushEnableChanged);
+            //TalkAPI.RegRecallMessageCallback(OnRegRecallMessage);
+            //TalkAPI.RegReceiveBroadcastCb(OnRegReceiveBroadcast);
+            //TalkAPI.RegReceiveBroadcastMsgsCb(OnRegReceiveBroadcastMsgs);
 
-            ClientAPI.IsMultiportPushEnabled(OnIsMultiportPushEnabled);
+            //ClientAPI.IsMultiportPushEnabled(OnIsMultiportPushEnabled);
 
-            RtsAPI.SetStartNotifyCallback(OnSetStartNotify);
+            //RtsAPI.SetStartNotifyCallback(OnSetStartNotify);
 
-            TalkAPI.RegReceiveBatchMessagesCb(OnRegReceiveBatchMessages);
+            //TalkAPI.RegReceiveBatchMessagesCb(OnRegReceiveBatchMessages);
 
-            _vChatSessionStatus.onSessionStartRes = OnSessionStartRes;
-            _vChatSessionStatus.onSessionInviteNotify = OnSessionInviteNotify;
-            _vChatSessionStatus.onSessionCalleeAckRes = OnSessionCalleeAckRes;
-            _vChatSessionStatus.onSessionCalleeAckNotify = OnSessionCalleeAckNotify;
-            _vChatSessionStatus.onSessionControlRes = OnSessionControlRes;
-            _vChatSessionStatus.onSessionControlNotify = OnSessionControlNotify;
-            _vChatSessionStatus.onSessionConnectNotify = OnSessionConnectNotify;
-            _vChatSessionStatus.onSessionMp4InfoStateNotify = OnSessionMp4InfoStateNotify;
-            _vChatSessionStatus.onSessionPeopleStatus = OnSessionPeopleStatus;
-            _vChatSessionStatus.onSessionNetStatus = OnSessionNetStatus;
-            _vChatSessionStatus.onSessionHangupRes = OnSessionHangupRes;
-            _vChatSessionStatus.onSessionHangupNotify = OnSessionHangupNotify;
-            _vChatSessionStatus.onSessionSyncAckNotify = OnSessionSyncAckNotify;
+            //_vChatSessionStatus.onSessionStartRes = OnSessionStartRes;
+            //_vChatSessionStatus.onSessionInviteNotify = OnSessionInviteNotify;
+            //_vChatSessionStatus.onSessionCalleeAckRes = OnSessionCalleeAckRes;
+            //_vChatSessionStatus.onSessionCalleeAckNotify = OnSessionCalleeAckNotify;
+            //_vChatSessionStatus.onSessionControlRes = OnSessionControlRes;
+            //_vChatSessionStatus.onSessionControlNotify = OnSessionControlNotify;
+            //_vChatSessionStatus.onSessionConnectNotify = OnSessionConnectNotify;
+            //_vChatSessionStatus.onSessionMp4InfoStateNotify = OnSessionMp4InfoStateNotify;
+            //_vChatSessionStatus.onSessionPeopleStatus = OnSessionPeopleStatus;
+            //_vChatSessionStatus.onSessionNetStatus = OnSessionNetStatus;
+            //_vChatSessionStatus.onSessionHangupRes = OnSessionHangupRes;
+            //_vChatSessionStatus.onSessionHangupNotify = OnSessionHangupNotify;
+            //_vChatSessionStatus.onSessionSyncAckNotify = OnSessionSyncAckNotify;
 
-            VChatAPI.SetSessionStatusCb(_vChatSessionStatus);
-            //DeviceAPI.SetAudioReceiveDataCb(OnSetAudioReceiveData, null);
-            DeviceAPI.SetAudioReceiveDataCb((time, data, size, rate) => { }, null);
-            DeviceAPI.SetVideoReceiveDataCb(OnSetVideoReceiveData, null);
-            DeviceAPI.SetVideoCaptureDataCb(OnSetVideoCaptureData, null);
+            //VChatAPI.SetSessionStatusCb(_vChatSessionStatus);
+            ////DeviceAPI.SetAudioReceiveDataCb(OnSetAudioReceiveData, null);
+            //DeviceAPI.SetAudioReceiveDataCb((time, data, size, rate) => { }, null);
+            //DeviceAPI.SetVideoReceiveDataCb(OnSetVideoReceiveData, null);
+            //DeviceAPI.SetVideoCaptureDataCb(OnSetVideoCaptureData, null);
 
-            DeviceAPI.AddDeviceStatusCb(NIMDeviceType.kNIMDeviceTypeVideo, OnAddDeviceStatus);
+            //DeviceAPI.AddDeviceStatusCb(NIMDeviceType.kNIMDeviceTypeVideo, OnAddDeviceStatus);
         }
 
         protected NIMFriendProfile[] _nimFriends;
