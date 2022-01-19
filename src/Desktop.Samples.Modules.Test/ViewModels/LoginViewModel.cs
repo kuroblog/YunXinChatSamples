@@ -68,6 +68,11 @@ namespace Desktop.Samples.Modules.Test.ViewModels
             get => new DelegateCommand(() => OnNavigationToView(typeof(ApiTestView).FullName));
         }
 
+        public DelegateCommand NavigationToControlTestViewCommand
+        {
+            get => new DelegateCommand(() => OnNavigationToView(typeof(ControlTestView).FullName));
+        }
+
         public LoginViewModel(
             YunXinService yunxin,
             IRegionManager region,

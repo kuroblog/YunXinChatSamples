@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Desktop.Samples.Modules.Test.Views.ControlTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Desktop.Samples.Modules.Test"
+             xmlns:vm="clr-namespace:Desktop.Samples.Modules.Test.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:common="clr-namespace:Desktop.Samples.Common;assembly=Desktop.Samples.Common"
+             mc:Ignorable="d"
+             x:Name="RootControl"
+             d:DataContext="{d:DesignInstance Type=vm:ControlTestViewModel, IsDesignTimeCreatable=False}">
+
+    <d:DesignProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Width" Value="800"/>
+            <Setter Property="Height" Value="450"/>
+            <Setter Property="Background" Value="#FFFFFFFF"/>
+            <!--<Setter Property="DataContext" Value="{d:DesignInstance Type=vm:MainViewModel, IsDesignTimeCreatable=False}"/>-->
+        </Style>
+    </d:DesignProperties.DesignStyle>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <Button Padding="5,1" Content="test 1 view" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,1" Command="{Binding NavigationToTest1ViewCommand}"/>
+            <Button Padding="5,1" Content="test 2 view" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,1" Command="{Binding NavigationToTest2ViewCommand}"/>
+            <Button Padding="5,1" Content="test 3 view" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,1" Command="{Binding NavigationToTest3ViewCommand}"/>
+        </StackPanel>
+
+        <TabControl HorizontalContentAlignment="Stretch" 
+                    VerticalContentAlignment="Stretch" 
+                    x:Name="RegionTabControl"
+                    prism:RegionManager.RegionName="{x:Static local:TestRegionNames.TestTabContent}">
+
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <!--<ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" Margin="5,1,1,1"/>-->
+                                    <TextBlock Text="{TemplateBinding Content}" VerticalAlignment="Center" Margin="5,1,1,1"/>
+
+                                    <Button Content="X" 
+                                            VerticalAlignment="Center" 
+                                            Margin="10,1,1,1" 
+                                            Command="{Binding ElementName=RootControl,Path=DataContext.ViewCloseCommand}"
+                                            CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}"/>
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+
+            <!--<TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        -->
+            <!--<Setter Property="Header" Value="{Binding DataContext.Title, Source={RelativeSource Self}}"/>-->
+            <!--
+                        <TextBlock Text="{Binding DataContext.Title, Source={RelativeSource Self}}"/>
+                        <Button Content="close"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>-->
+
+        </TabControl>
+    </DockPanel>
+
+</UserControl>

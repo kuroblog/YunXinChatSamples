@@ -7,5 +7,7 @@ namespace Desktop.Samples.Modules.Test
         public static string TestHome => nameof(TestHome);
 
         public static string TestContent => nameof(TestContent);
+
+        public static string TestTabContent => nameof(TestTabContent);
     }
 }

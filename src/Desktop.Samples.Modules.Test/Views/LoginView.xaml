@@ -45,6 +45,7 @@
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="1">
                 <Button Content="test api view" Margin="1" Padding="5,1" Command="{Binding NavigationToApiTestViewCommand}"/>
+                <Button Content="test control view" Margin="1" Padding="5,1" Command="{Binding NavigationToControlTestViewCommand}"/>
             </StackPanel>
 
             <Grid DockPanel.Dock="Top"

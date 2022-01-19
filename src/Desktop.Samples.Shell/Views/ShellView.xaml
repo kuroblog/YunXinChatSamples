@@ -17,6 +17,10 @@
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance Type=vm:ShellViewModel, IsDesignTimeCreatable=False}">
 
+    <mah:MetroWindow.WindowTitleBrush>
+        <Brush>#FFFFFFFF</Brush>
+    </mah:MetroWindow.WindowTitleBrush>
+
     <d:DesignProperties.DesignStyle>
         <Style TargetType="Window">
             <!--<Setter Property="Width" Value="800"/>-->

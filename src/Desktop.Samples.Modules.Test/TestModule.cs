@@ -34,6 +34,10 @@ namespace Desktop.Samples.Modules.Test
             _region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<LoginView>());
             //_region.RegisterViewWithRegion(TestRegionNames.TestHome, () => _container.Resolve<ApiTestView>());
             _container.RegisterType<object, ApiTestView>(typeof(ApiTestView).FullName, new PerResolveLifetimeManager());
+            _container.RegisterType<object, ControlTestView>(typeof(ControlTestView).FullName, new PerResolveLifetimeManager());
+            _container.RegisterType<object, Test1View>(typeof(Test1View).FullName, new PerResolveLifetimeManager());
+            _container.RegisterType<object, Test2View>(typeof(Test2View).FullName, new PerResolveLifetimeManager());
+            _container.RegisterType<object, Test3View>(typeof(Test3View).FullName, new PerResolveLifetimeManager());
 
             _container.RegisterType<object, HomeView>(typeof(HomeView).FullName, new PerResolveLifetimeManager());
 
