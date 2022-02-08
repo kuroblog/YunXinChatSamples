@@ -1,0 +1,261 @@
+﻿<Page x:Class="CustomControls.Sample.WPF.TextBoxStylesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CustomControls.Sample.WPF"
+      xmlns:ma="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TextBoxStylesPage"
+      d:DataContext="{d:DesignInstance Type=local:TextBoxStylesPageViewModel,IsDesignTimeCreatable=False}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <!-- Theme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="#FFF5F5F5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4.5*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="120"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Margin="10"
+                       TextAlignment="Left"
+                       FontWeight="Bold"
+                       FontSize="14">
+                <Run Text="我的患者: "/>
+                <Run Text="演示患者"/>
+            </TextBlock>
+
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       Margin="10,5"
+                       FontSize="12"
+                       VerticalAlignment="Center"
+                       TextAlignment="Right">
+                <Run Text="待接诊"/>
+                <Run Text="回复后开始倒计时" Foreground="#FFFC9664"/>
+            </TextBlock>
+
+            <Border Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    BorderThickness="0,0,0,1.5"
+                    BorderBrush="#FFE4E4E4"/>
+
+            <Border Grid.Row="0" 
+                    Grid.Column="0" 
+                    Grid.RowSpan="3" 
+                    Grid.ColumnSpan="2" 
+                    BorderBrush="#FFE4E4E4"
+                    BorderThickness="1.5"/>
+
+            <ItemsControl Grid.Row="1"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          ItemsSource="{Binding Messages}"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <i:Interaction.Behaviors>
+                    <local:BringNewItemIntoViewBehavior/>
+                </i:Interaction.Behaviors>
+
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <ScrollViewer>
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="36" Name="PersonColumn"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="{Binding ElementName=PersonColumn,Path=Width}"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Row="0" 
+                                       Grid.Column="0"
+                                       Name="FromHeaderImage"/>
+
+                                <Image Grid.Row="0" 
+                                       Grid.Column="2" 
+                                       Name="SelfHeaderImage"/>
+
+                                <Border Grid.Row="0" 
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1" 
+                                        Name="MessageBorder" 
+                                        Padding="5,10"
+                                        Margin="5,0"
+                                        CornerRadius="10">
+                                    <Grid>
+                                        <TextBlock Name="MessageBlock" 
+                                                   Text="{Binding Message}" 
+                                                   TextWrapping="Wrap"/>
+
+                                        <Image Name="MessageImage" 
+                                               MaxWidth="300"
+                                               Stretch="Uniform"
+                                               Source="{Binding ImageUri}">
+                                            <i:Interaction.Behaviors>
+                                                <local:ImageAutoSizeBehavior WidthLimit="300"/>
+                                            </i:Interaction.Behaviors>
+                                        </Image>
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+                        </Border>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Message}" Value="">
+                                <Setter TargetName="MessageBlock" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ImageUri}" Value="">
+                                <Setter TargetName="MessageImage" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MessageType}" Value="Self">
+                                <Setter TargetName="SelfHeaderImage" Property="Source" Value="{Binding HeaderImage}"/>
+                                <Setter TargetName="MessageBorder" Property="Background" Value="#FF00AE66"/>
+                                <Setter TargetName="MessageBorder" Property="HorizontalAlignment" Value="Right"/>
+                                <Setter TargetName="MessageBlock" Property="Foreground" Value="#FFFFFFFF"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MessageType}" Value="From">
+                                <Setter TargetName="FromHeaderImage" Property="Source" Value="{Binding HeaderImage}"/>
+                                <Setter TargetName="MessageBorder" Property="Background" Value="#FFFFFFFF"/>
+                                <Setter TargetName="MessageBorder" Property="HorizontalAlignment" Value="Left"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MessageType}" Value="System">
+                                <Setter TargetName="MessageBorder" Property="HorizontalAlignment" Value="Center"/>
+                                <Setter TargetName="MessageBorder" Property="VerticalAlignment" Value="Center"/>
+                                <Setter TargetName="MessageBlock" Property="FontSize" Value="10"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" Padding="5" CornerRadius="10" Background="#FFFFFFFF" BorderThickness="1.5" BorderBrush="#FFE4E4E4">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource SquareMetroButton}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Background" Value="#00FFFFFF"/>
+                                <Setter Property="Width" Value="22"/>
+                                <Setter Property="Height" Value="22"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="5,2"/>
+                            </Style>
+
+                            <Style TargetType="Path">
+                                <Setter Property="Stretch" Value="Uniform"/>
+                                <Setter Property="Fill" Value="#FF6B6B6B"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Grid.Column="0" Command="{Binding EmojiToCommand}">
+                            <Path Data="M6.9509888,19.851013C9.5009766,21.684998 12.618958,22.778015 16,22.778015 19.380981,22.778015 22.498962,21.684998 25.04895,19.851013 23.046997,22.697021 19.743958,24.563019 16,24.563019 12.255981,24.563019 8.9530029,22.697021 6.9509888,19.851013z M20.994995,11.005005C22.372986,11.005005 23.492981,12.123016 23.492981,13.503021 23.492981,14.881012 22.372986,16 20.994995,16 19.617004,16 18.497986,14.881012 18.497986,13.503021 18.497986,12.123016 19.617004,11.005005 20.994995,11.005005z M11.005005,11.005005C12.382996,11.005005 13.501953,12.123016 13.501953,13.503021 13.501953,14.881012 12.382996,16 11.005005,16 9.6269531,16 8.506958,14.881012 8.506958,13.503021 8.506958,12.123016 9.6269531,11.005005 11.005005,11.005005z M16,2.4970093C8.5549927,2.4970093 2.4979858,8.5550232 2.4979858,16 2.4979858,23.445007 8.5549927,29.503021 16,29.503021 23.445007,29.503021 29.501953,23.445007 29.501953,16 29.501953,8.5550232 23.445007,2.4970093 16,2.4970093z M16,0C24.835999,0 32,7.1640015 32,16 32,24.835999 24.835999,32 16,32 7.1640015,32 0,24.835999 0,16 0,7.1640015 7.1640015,0 16,0z"/>
+                        </Button>
+                        <Button Grid.Column="1" Command="{Binding ImageToCommand}">
+                            <Path Data="M23.900009,15.700002L20,21.099993 17.900009,19.699999 13,25.199995 30.300003,25.199995 28.200012,17.700001 25.700012,17.700001z M14.700012,13.200004C13.600006,13.200004 12.700012,14.099997 12.700012,15.200002 12.700012,16.300007 13.600006,17.200001 14.700012,17.200001 15.800003,17.200001 16.700012,16.300007 16.700012,15.200002 16.700012,14.099997 15.800003,13.200004 14.700012,13.200004z M8.5,9.3000117L32,9.3000117 32,26.800001 8.5,26.800001z M21,0L24.900009,7.7000071 6.9000092,7.7000071 6.9000092,24.199997 0,10.499993z"/>
+                        </Button>
+                        <Button Grid.Column="2" Command="{Binding AudioToCommand}">
+                            <Path Data="M17.449774,11.021C18.451788,11.021 19.553776,11.422001 20.354771,12.224004 21.657778,13.526006 21.85779,15.329992 21.056795,16.833014 21.156771,15.530004 20.655796,14.127995 19.553776,13.024998 18.451788,11.923008 17.048773,11.422001 15.745797,11.522007 16.246773,11.221988 16.848793,11.021 17.449774,11.021z M19.653782,7.0140098C21.156771,7.0140098 22.659792,7.6149929 23.76178,8.7169826 25.66577,10.621006 25.965788,13.425999 24.763794,15.63001 24.863768,13.726994 24.162781,11.622989 22.458773,9.91901 20.855776,8.3159817 18.751776,7.5149868 16.74778,7.6149929 17.749792,7.3139975 18.651801,7.0140098 19.653782,7.0140098z M21.557772,2.8049934C23.661774,2.8049934 25.765776,3.6069956 27.368771,5.2099932 29.97378,7.8150051 30.474787,11.823002 28.87176,14.928991 29.071772,12.224004 27.969784,9.2179897 25.66577,6.9129966 23.360779,4.6089795 20.354771,3.5069895 17.649786,3.7070017 18.851782,3.1059885 20.154789,2.8049934 21.557772,2.8049934z M7.0287947,1.7030032C6.527788,1.7030033 5.9268059,1.9039922 5.5258054,2.3049932 4.9247927,2.9060066 3.5227858,3.9079907 3.0218097,4.5090039 -0.78620052,9.4180029 3.1217853,16.833014 9.0327905,22.84501 15.044778,28.855998 22.358797,32.061993 27.368771,28.956004L29.572779,26.751994C29.572779,26.751994,31.276787,25.048989,29.572779,23.746011L26.76779,21.040992C25.66577,20.039008 24.362793,21.441994 24.362793,21.441994 24.362793,21.441994 22.559786,23.044991 21.85779,23.445992 18.651801,25.44999 15.24479,22.743996 12.339795,19.838996 9.4337906,16.93299 6.8287824,13.526006 8.7328028,10.320011 9.1338037,9.6189917 10.93678,7.9149807 10.93678,7.9149807 11.738781,7.1139853 11.738781,5.7110002 10.93678,4.9100054L8.5317835,2.4049998C8.1317905,1.9039922,7.6307834,1.7030033,7.0287947,1.7030032z M6.8287824,4.4747139E-10C7.8307957,-2.150191E-07,8.8328089,0.4010009,9.5337967,1.1019898L11.938794,3.5069895C13.040782,4.6089795 13.441782,6.3119834 12.740795,7.6149929 12.539806,7.9149807 12.138806,8.6170071 11.938794,8.9169949 11.437786,9.4180029 10.335799,10.419987 10.034804,11.021 8.8328089,13.126012 10.335799,15.63001 13.341777,18.635993 15.745797,21.040992 17.649786,22.143014 19.553776,22.143014 20.054783,22.143014 20.455784,22.043008 20.855776,21.742013 21.757784,21.241004 23.160767,19.838996 24.062775,19.337989 24.462769,19.036994 25.064787,19.036994 25.565764,19.036994 26.566771,19.036994 27.568783,19.437995 28.270779,20.139014L30.674769,22.544015C31.676781,23.545998 32.378777,25.249001 31.777764,26.452004 31.276787,27.453013 28.771786,29.758006 28.771786,29.758006 28.771786,29.758006 28.270779,30.159007 28.170773,30.358989 26.667784,31.461009 24.763794,31.661998 22.759768,31.661998 18.150793,31.661998 12.840801,28.956004 7.8307957,23.946999 0.81679482,16.833014 -2.0882012,9.1179836 1.6187961,3.8070081 1.718802,3.7070017 2.1198026,3.2059946 2.1198026,3.2059946 2.1198026,3.2059946 4.724811,0.70098881 5.8267998,0.19998161 6.1277942,-2.150191E-07 6.527788,-2.150191E-07 6.8287824,4.4747139E-10z"/>
+                        </Button>
+                        <Button Grid.Column="3" Command="{Binding VideoToCommand}">
+                            <Path Data="M3.5,13.699991L3.5,21.600021 23.5,21.600021 23.5,13.699991z M0,10.199989L6.9000244,10.199989 18.600037,10.199989 27,10.199989 27,16.199993 32,11.199989 32,24.199999 27,19.199995 27,25.199999 0,25.199999z M18.600037,0C21.400024,-6.999835E-08 23.700012,2.2999893 23.700012,5.1000095 23.700012,7.8999997 21.400024,10.199989 18.600037,10.199989 15.799988,10.199989 13.5,7.8999997 13.5,5.1000095 13.5,2.2999893 15.799988,-6.999835E-08 18.600037,0z M6.9000244,0C9.7999878,-6.999835E-08 12,2.2999893 12,5.1000095 12,7.8999997 9.7000122,10.199989 6.9000244,10.199989 4.1000366,10.199989 1.7999878,7.8999997 1.7999878,5.1000095 1.7999878,2.2999893 4.1000366,-6.999835E-08 6.9000244,0z"/>
+                        </Button>
+
+                        <TextBlock Grid.Column="4" Text="Enter 发送/ Ctrl + Enter 换行" TextAlignment="Right" VerticalAlignment="Center"/>
+
+                        <Button Grid.Column="5" 
+                                Style="{StaticResource MetroButton}"
+                                Foreground="#FFFFFFFF"
+                                Background="#FF7FD6B2"
+                                Margin="5,2"
+                                Width="60"
+                                Content="发送"
+                                Command="{Binding MessageToCommand}"/>
+                    </Grid>
+
+                    <TextBox BorderThickness="0" 
+                             VerticalScrollBarVisibility="Auto" 
+                             TextWrapping="Wrap" 
+                             Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                             ma:TextBoxHelper.Watermark="请输入 ..." 
+                             ma:TextBoxHelper.ClearTextButton="True">
+                        <!--<TextBox.AcceptsReturn>true</TextBox.AcceptsReturn>-->
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding MessageToCommand}" Key="Enter"/>
+                            <!--<KeyBinding Command="{Binding NewLLineCommand}" Key="Enter" Modifiers="Ctrl"/>-->
+                        </TextBox.InputBindings>
+                        <i:Interaction.Behaviors>
+                            <local:TextBoxAcceptsReturnBehavior/>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </DockPanel>
+            </Border>
+
+        </Grid>
+
+        <Border Grid.Column="1">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Background" Value="#00FFFFFF"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <Button Content="就诊记录"/>
+                <Button Content="模拟消息" Command="{Binding MockFromMessageCommand}"/>
+                <Button Content="模拟系统通知" Command="{Binding MockSystemMessageCommand}"/>
+                <Button Content="清理消息" Command="{Binding MockMessagesCleanCommand}"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Page>

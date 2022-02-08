@@ -220,7 +220,13 @@ namespace Desktop.Samples.Modules.Test.Services
             var body = new { loginCode };
             var jsonBody = body.ToJson();
 
-            return api.Post<GetTokenResult>("https://hospitals-gateway-dev.ijia120.com/hospital-doctor/login/token", jsonBody, requestHeaders: new Dictionary<string, string> { { "Device-Id", "doctor-pc" } });
+            var result = api.Post<GetTokenResult>("https://hospitals-gateway-dev.ijia120.com/hospital-doctor/login/token", jsonBody, requestHeaders: new Dictionary<string, string> { { "Device-Id", "doctor-pc" } });
+
+            var sss = api.Get<GetTokenResult>("https://hospitals-gateway-dev.ijia120.com/hospital-doctor/login/getMe", requestHeaders: new Dictionary<string, string> { { "Device-Id", "doctor-pc" }, { "Hospital-Token", result.data.access_token } });
+
+
+
+            return result;
         }
     }
 

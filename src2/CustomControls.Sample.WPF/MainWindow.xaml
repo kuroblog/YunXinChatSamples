@@ -1,0 +1,21 @@
+﻿<Window x:Class="CustomControls.Sample.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CustomControls.Sample.WPF"
+        mc:Ignorable="d"
+        Title="Sample" 
+        Width="800"
+        Height="450">
+
+    <DockPanel>
+        <WrapPanel DockPanel.Dock="Top">
+            <Button Content="Button Styles" Click="ButtonStylesPageClick"/>
+            <Button Content="TextBox Styles" Click="TextBoxStylesPageClick"/>
+            <Button Content="Button2 Styles" Click="Button2StylesPageClick"/>
+        </WrapPanel>
+
+        <Frame x:Name="MainFrame"/>
+    </DockPanel>
+</Window>

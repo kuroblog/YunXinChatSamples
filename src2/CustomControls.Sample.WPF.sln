@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControls.Sample.WPF", "CustomControls.Sample.WPF\CustomControls.Sample.WPF.csproj", "{572048B6-FD71-4985-A8D0-CADA89DA2293}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControls.Sample.Desktop.WPF", "CustomControls.Sample.Desktop.WPF\CustomControls.Sample.Desktop.WPF.csproj", "{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{C4B8E7A2-B535-4CD3-AE81-5277EFE7AAA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prism", "Prism", "{64C2477B-BC53-4054-AC45-FE0F2F6475BC}"
+	ProjectSection(SolutionItems) = preProject
+		Prism\Prism.zip = Prism\Prism.zip
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blend", "Blend", "{DB5CCBE3-A53B-478C-A071-CF69AF1B5D52}"
+	ProjectSection(SolutionItems) = preProject
+		Blend\Blend.zip = Blend\Blend.zip
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{572048B6-FD71-4985-A8D0-CADA89DA2293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{572048B6-FD71-4985-A8D0-CADA89DA2293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{572048B6-FD71-4985-A8D0-CADA89DA2293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{572048B6-FD71-4985-A8D0-CADA89DA2293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64C2477B-BC53-4054-AC45-FE0F2F6475BC} = {C4B8E7A2-B535-4CD3-AE81-5277EFE7AAA2}
+		{DB5CCBE3-A53B-478C-A071-CF69AF1B5D52} = {C4B8E7A2-B535-4CD3-AE81-5277EFE7AAA2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45F6CDCB-C3FE-4743-B9DC-330168AEB996}
+	EndGlobalSection
+EndGlobal
