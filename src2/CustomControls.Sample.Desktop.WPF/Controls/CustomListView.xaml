@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="CustomControls.Sample.Desktop.WPF.Controls.CustomListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CustomControls.Sample.Desktop.WPF.Controls"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=local:CustomListViewModel,IsDesignTimeCreatable=False}"
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             Background="#FFF6F6F6">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <CollectionViewSource x:Key="UserSource" Source="{Binding Users}">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="GroupKey"/>
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" x:Name="StateGrid"/>
+            <Grid Grid.Column="1" x:Name="NameGrid"/>
+            <Grid Grid.Column="2" x:Name="SexGrid"/>
+            <Grid Grid.Column="3" x:Name="AgeGrid"/>
+            <Grid Grid.Column="4" x:Name="BizTypeGrid"/>
+            <Grid Grid.Column="5" x:Name="DateGrid"/>
+            <Grid Grid.Column="6" x:Name="OrderNoGrid"/>
+            <Grid Grid.Column="7" x:Name="ActionGrid"/>
+        </Grid>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Patients}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Foreground" Value="{StaticResource GrayBrush2}"/>
+                    <Setter Property="BorderBrush" Value="#FFF6F6F6"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <!--<Setter Property="HorizontalContentAlignment" Value="Stretch"/>-->
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="GridViewColumnHeader">
+                            <!--<Setter Property="IsEnabled" Value="False"/>-->
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="AllowDrop" Value="False"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            <!--<Setter Property="Margin" Value="5"/>-->
+                            <Setter Property="Padding" Value="5"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+
+                    <GridViewColumn Header="状态" x:Name="StateColumn" 
+                                    Width="{Binding ElementName=StateGrid,Path=ActualWidth}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Name="StateTextBlock" HorizontalAlignment="Left">
+                                <Run Text="*" FontWeight="Bold"/>
+                                <Run Text="{Binding StateDesc}"/>
+                                </TextBlock>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding State}" Value="0">
+                                        <Setter TargetName="StateTextBlock" 
+                                            Property="TextBlock.Foreground" Value="#FFF98342"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding State}" Value="1">
+                                        <Setter TargetName="StateTextBlock" 
+                                            Property="TextBlock.Foreground" Value="#FF0EAE71"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}"
+                                    Width="{Binding ElementName=NameGrid,Path=ActualWidth}"/>
+                    <GridViewColumn Header="性别" DisplayMemberBinding="{Binding Sex}"
+                                    Width="{Binding ElementName=SexGrid,Path=ActualWidth}"/>
+                    <GridViewColumn Header="年龄" DisplayMemberBinding="{Binding Age}"
+                                    Width="{Binding ElementName=AgeGrid,Path=ActualWidth}"/>
+                    <GridViewColumn Header="业务类型" DisplayMemberBinding="{Binding BizType}"
+                                    Width="{Binding ElementName=BizTypeGrid,Path=ActualWidth}"/>
+                    <GridViewColumn Header="问诊日期" DisplayMemberBinding="{Binding Date}"
+                                    Width="{Binding ElementName=DateGrid,Path=ActualWidth}"/>
+                    <GridViewColumn Header="订单编号" DisplayMemberBinding="{Binding OrderNo}"
+                                    Width="{Binding ElementName=OrderNoGrid,Path=ActualWidth}"/>
+
+                    <GridViewColumn Header="操作"
+                                    Width="{Binding ElementName=ActionGrid,Path=ActualWidth}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Margin="1"
+                                            Name="ActionButton"
+                                            Command="{Binding NavigationCommand}"
+                                            CommandParameter="{Binding}"
+                                            Background="#FF01AE67"
+                                            Foreground="White"/>
+                                </StackPanel>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding State}" Value="0">
+                                        <Setter TargetName="ActionButton" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="ActionButton" Property="Content" Value="进入问诊"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding State}" Value="1">
+                                        <Setter TargetName="ActionButton" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="ActionButton" Property="Content" Value="进入问诊"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding State}" Value="2">
+                                        <Setter TargetName="ActionButton" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="ActionButton" Property="Content" Value="问诊记录"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding State}" Value="3">
+                                        <Setter TargetName="ActionButton" Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="RadioButton" BasedOn="{StaticResource MetroRadioButton}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontFamily" Value="NSimsun"/>
+                    <Setter Property="GroupName" Value="StateGroup"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="RadioButton">
+                                <ContentPresenter x:Name="contentPresenter" 
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                                  Content="{TemplateBinding Content}" 
+                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  Margin="{TemplateBinding Padding}" 
+                                                  RecognizesAccessKey="True" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Foreground" Value="#FF01AE67"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </StackPanel.Resources>
+
+            <RadioButton Content="全部"/>
+            <RadioButton Content="待接诊"/>
+            <RadioButton Content="问诊中"/>
+            <RadioButton Content="已完成"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Foreground="{StaticResource GrayBrush2}" FontSize="10" Margin="5">
+                <Run Text="共"/>
+                <Run Text="400"/>
+                <Run Text="条记录"/>
+                <Run/>
+                <Run Text="第"/>
+                <Run Text="1"/>
+                <Run Text="/"/>
+                <Run Text="99"/>
+                <Run Text="页"/>
+            </TextBlock>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="前一页" 
+                        Style="{StaticResource ChromelessButtonStyle}"
+                        Margin="5"/>
+                <Button Content="后一页" 
+                        Style="{StaticResource ChromelessButtonStyle}"
+                        Margin="5"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

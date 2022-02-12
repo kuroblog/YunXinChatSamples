@@ -39,6 +39,7 @@ namespace CustomControls.Sample.Desktop.WPF
 
             registerView<UserListView>();
             registerView<UserListMvvmView>();
+            registerView<CustomListView>();
         }
     }
 }
