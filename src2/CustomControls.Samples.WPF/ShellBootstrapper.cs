@@ -28,7 +28,7 @@ namespace CustomControls.Samples.WPF
         {
             base.ConfigureContainer();
 
-            void doRegisterControl<TControl>(string name, LifetimeManager lifetime = null)
+            void doRegisterControl<TControl>(string name = "", LifetimeManager lifetime = null)
             {
                 if (string.IsNullOrEmpty(name))
                 {
@@ -48,6 +48,9 @@ namespace CustomControls.Samples.WPF
             var region = Container.Resolve<IRegionViewRegistry>() ?? throw new ArgumentNullException($"{nameof(IRegionViewRegistry)} resolve failed.");
 
             region.RegisterViewWithRegion(RegionNames.Root, () => Container.Resolve<MainView>());
+            region.RegisterViewWithRegion(RegionNames.Main, () => Container.Resolve<HomeView>());
+
+            doRegisterControl<TemplateView>();
         }
 
         protected override ILoggerFacade CreateLogger()

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="CustomControls.Samples.WPF.Controls.MainView"
+﻿<UserControl x:Class="CustomControls.Samples.WPF.Controls.TemplateView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CustomControls.Samples.WPF.Controls"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=local:MainViewModel,IsDesignTimeCreatable=False}"
+             d:DataContext="{d:DesignInstance Type=local:TemplateViewModel,IsDesignTimeCreatable=False}"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:utils="clr-namespace:CustomControls.Samples.WPF.Utils">
     <UserControl.Resources>
@@ -24,10 +24,5 @@
         </Style>
     </d:DesignProperties.DesignStyle>
 
-    <Grid>
-        <!--<TextBlock Text="{DynamicResource TestString}"/>-->
-        
-        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                        prism:RegionManager.RegionName="{x:Static utils:RegionNames.Main}"/>
-    </Grid>
+    <Grid></Grid>
 </UserControl>
