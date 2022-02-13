@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blend", "Blend", "{DB5CCBE3
 		Blend\Blend.zip = Blend\Blend.zip
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControls.Samples.WPF", "CustomControls.Samples.WPF\CustomControls.Samples.WPF.csproj", "{296EE2EC-BC58-4244-B5C2-7CCB7BBDA74D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{413215B6-5F91-4AB6-BDC3-7D234EDD03CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{296EE2EC-BC58-4244-B5C2-7CCB7BBDA74D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{296EE2EC-BC58-4244-B5C2-7CCB7BBDA74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{296EE2EC-BC58-4244-B5C2-7CCB7BBDA74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{296EE2EC-BC58-4244-B5C2-7CCB7BBDA74D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
