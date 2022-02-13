@@ -70,7 +70,10 @@ namespace CustomControls.Samples.WPF
             }
         }
 
-        private void OnExit(object sender, ExitEventArgs e) { }
+        private void OnExit(object sender, ExitEventArgs e)
+        {
+            _logger.Info($"exit ... {Environment.NewLine}");
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
