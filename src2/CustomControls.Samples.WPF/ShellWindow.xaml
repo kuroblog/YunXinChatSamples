@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:CustomControls.Samples.WPF"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:ShellWindowViewModel,IsDesignTimeCreatable=False}"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:utils="clr-namespace:CustomControls.Samples.WPF.Utils"
         Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title}">
-    <Grid>
-
-    </Grid>
+    <Border>
+        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                        prism:RegionManager.RegionName="{x:Static utils:RegionNames.Root}"/>
+    </Border>
 </Window>

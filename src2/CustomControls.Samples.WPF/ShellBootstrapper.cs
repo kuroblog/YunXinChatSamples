@@ -1,5 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using CustomControls.Samples.WPF.Controls;
+using CustomControls.Samples.WPF.Utils;
 using Microsoft.Practices.Prism.Logging;
+using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
 
@@ -40,6 +44,10 @@ namespace CustomControls.Samples.WPF
             }
 
             // register controls
+
+            var region = Container.Resolve<IRegionViewRegistry>() ?? throw new ArgumentNullException($"{nameof(IRegionViewRegistry)} resolve failed.");
+
+            region.RegisterViewWithRegion(RegionNames.Root, () => Container.Resolve<MainView>());
         }
 
         protected override ILoggerFacade CreateLogger()
