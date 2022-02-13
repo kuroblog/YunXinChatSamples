@@ -64,6 +64,23 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
+                <Style TargetType="TabControl">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabControl">
+                                <StackPanel>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                        <TabPanel IsItemsHost="True"/>
+                                    </ScrollViewer>
+
+                                    <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                      ContentSource="SelectedContent"/>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </TabControl.Resources>
 
             <!--<TabItem Header="12333"/>-->

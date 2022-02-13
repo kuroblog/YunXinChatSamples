@@ -89,6 +89,8 @@ namespace CustomControls.Samples.WPF.Controls
 
             var m1 = addMenuItemInfo(_menus, "Tests", "", undoNavigationHandler);
             addMenuItemInfo(m1.SubMenus, "Template", typeof(TemplateView).FullName, doNavigationHandler);
+            addMenuItemInfo(m1.SubMenus, "Test1", typeof(Test1View).FullName, doNavigationHandler);
+            addMenuItemInfo(m1.SubMenus, "Test2", typeof(Test2View).FullName, doNavigationHandler);
         }
     }
 

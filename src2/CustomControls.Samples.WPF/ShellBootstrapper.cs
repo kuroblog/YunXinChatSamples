@@ -51,6 +51,8 @@ namespace CustomControls.Samples.WPF
             region.RegisterViewWithRegion(RegionNames.Main, () => Container.Resolve<HomeView>());
 
             doRegisterControl<TemplateView>();
+            doRegisterControl<Test1View>();
+            doRegisterControl<Test2View>();
         }
 
         protected override ILoggerFacade CreateLogger()
