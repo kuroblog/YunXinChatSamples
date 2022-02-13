@@ -4,6 +4,7 @@ using NLog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace CustomControls.Samples.WPF
@@ -14,11 +15,63 @@ namespace CustomControls.Samples.WPF
 
         public NLogWrapper()
         {
-            _logger.Debug("ctor.");
+            _logger.Debug($"{GetType().FullName} ctor.");
         }
 
         protected virtual void OnLog(string message, Category category, Priority priority)
         {
+            //var ss = Environment.StackTrace;
+            //var stackTrace = new StackTrace(true);
+            //stackTrace.GetFrames().Where(a => !string.IsNullOrEmpty(a.GetFileName())).ToList().ForEach(a =>
+            //{
+            //    var obj = new
+            //    {
+            //        lineNo = a.GetFileLineNumber(),
+            //        name = a.GetFileName(),
+            //        colNo = a.GetFileColumnNumber(),
+            //        code = a.GetHashCode(),
+            //        offset = a.GetILOffset(),
+            //        method = a.GetMethod(),
+            //        nOffset = a.GetNativeOffset(),
+            //        type = a.GetType()
+            //    };
+
+            //    var json = obj.ToFormatJson();
+
+            //    _logger.Debug(json);
+            //});
+
+            string getNameOfCallingClass()
+            {
+                var skipFrames = 4;
+
+                //Type declaringType;
+                //string fullName;
+
+                var method = new StackFrame(skipFrames, false).GetMethod();
+
+                return $"|-{method.DeclaringType?.FullName}{Environment.NewLine}|--{method.Name} =>";
+
+                //do
+                //{
+                //    var method = new StackFrame(skipFrames, false).GetMethod();
+
+                //    declaringType = method.DeclaringType;
+                //    if (declaringType == null)
+                //    {
+                //        return method.Name;
+                //    }
+
+                //    fullName = declaringType.FullName;
+
+                //    skipFrames++;
+                //} while (declaringType.Module.Name.Equals("mscorlib.dll", StringComparison.OrdinalIgnoreCase));
+
+                //return fullName;
+            }
+
+            var callName = getNameOfCallingClass();
+
             // method 1
             LogLevel getLogLevel(Category categoryLevel)
             {
@@ -34,7 +87,13 @@ namespace CustomControls.Samples.WPF
 
             var logLevel = getLogLevel(category);
 
-            _logger.Log(logLevel, message);
+            //_logger.Log(logLevel, message);
+
+            //var names = new StackTrace(true).GetFrames().Where(a => !string.IsNullOrEmpty(a.GetFileName())).Select(a => a.GetMethod().ReflectedType.FullName);
+            //var names = new StackTrace(true).GetFrames().Where(a => !string.IsNullOrEmpty(a.GetFileName())).Select(a => a.)?.ToArray();
+            //_logger.Log(logLevel, $"{callName} {message} ... {names.ToJson()}");
+
+            _logger.Log(logLevel, $"{callName} {message}");
 
             // or
             // method 2
@@ -192,6 +251,21 @@ namespace CustomControls.Samples.WPF
             var errorText = JsonConvert.SerializeObject(errorLogs, isFormat ? Formatting.Indented : Formatting.None);
 
             return errorText;
+        }
+    }
+
+    public static class JsonExtensions
+    {
+        public static string ToJson<T>(this T value, bool formatJson = false)
+        {
+            return JsonConvert.SerializeObject(value, formatJson ? Formatting.Indented : Formatting.None);
+        }
+
+        public static string ToFormatJson<T>(this T value) => value.ToJson(true);
+
+        public static T ToObject<T>(this string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
         }
     }
 }
