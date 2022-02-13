@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
+using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
 
@@ -43,6 +40,13 @@ namespace CustomControls.Samples.WPF
             }
 
             // register controls
+        }
+
+        protected override ILoggerFacade CreateLogger()
+        {
+            //return base.CreateLogger();
+
+            return new NLogWrapper();
         }
     }
 }

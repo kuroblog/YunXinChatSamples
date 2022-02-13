@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomControls.Samples.WPF"
         mc:Ignorable="d"
-        Title="ShellWindow" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen">
+        d:DataContext="{d:DesignInstance Type=local:ShellWindowViewModel,IsDesignTimeCreatable=False}"
+        Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Title}">
     <Grid>
 
     </Grid>
