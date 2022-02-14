@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:CustomControls.Sample.Desktop.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="test 1 view"/>
-    </Grid>
+    <Image Source="https://cdn-mp-oss.ijia120.com/ih-patient/2021-12-14/ih-patient/1639461235027-2051342.jpg"
+               Stretch="Uniform"
+               Width="100"
+               Height="100"/>
 </UserControl>
