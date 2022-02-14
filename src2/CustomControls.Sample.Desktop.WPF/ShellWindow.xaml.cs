@@ -80,6 +80,7 @@ namespace CustomControls.Sample.Desktop.WPF
             }
 
             var m1 = addMenuItemInfo(_menus, "Styles", "", undoNavigationHandle);
+            addMenuItemInfo(m1.SubMenus, "Custom List", typeof(CustomListView).FullName, doNavigationHandle);
             addMenuItemInfo(m1.SubMenus, "User List MVVM", typeof(UserListMvvmView).FullName, doNavigationHandle);
             addMenuItemInfo(m1.SubMenus, "User List", typeof(UserListView).FullName, doNavigationHandle);
             addMenuItemInfo(m1.SubMenus, "Test-1", typeof(Test1View).FullName, doNavigationHandle);
