@@ -87,10 +87,13 @@ namespace CustomControls.Samples.WPF.Controls
                 return menu;
             }
 
-            var m1 = addMenuItemInfo(_menus, "Tests", "", undoNavigationHandler);
-            addMenuItemInfo(m1.SubMenus, "Template", typeof(TemplateView).FullName, doNavigationHandler);
-            addMenuItemInfo(m1.SubMenus, "Test1", typeof(Test1View).FullName, doNavigationHandler);
-            addMenuItemInfo(m1.SubMenus, "Test2", typeof(Test2View).FullName, doNavigationHandler);
+            var controlMenu = addMenuItemInfo(_menus, "Contorls", "", undoNavigationHandler);
+            addMenuItemInfo(controlMenu.SubMenus, "Image", typeof(ImageView).FullName, doNavigationHandler);
+
+            var testMenu = addMenuItemInfo(_menus, "Tests", "", undoNavigationHandler);
+            addMenuItemInfo(testMenu.SubMenus, "Template", typeof(TemplateView).FullName, doNavigationHandler);
+            addMenuItemInfo(testMenu.SubMenus, "Test1", typeof(Test1View).FullName, doNavigationHandler);
+            addMenuItemInfo(testMenu.SubMenus, "Test2", typeof(Test2View).FullName, doNavigationHandler);
         }
     }
 

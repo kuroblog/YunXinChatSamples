@@ -53,6 +53,7 @@ namespace CustomControls.Samples.WPF
             doRegisterControl<TemplateView>();
             doRegisterControl<Test1View>();
             doRegisterControl<Test2View>();
+            doRegisterControl<ImageView>();
         }
 
         protected override ILoggerFacade CreateLogger()

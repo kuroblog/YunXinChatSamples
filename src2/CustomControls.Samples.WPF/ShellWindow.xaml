@@ -8,11 +8,25 @@
         d:DataContext="{d:DesignInstance Type=local:ShellWindowViewModel,IsDesignTimeCreatable=False}"
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:utils="clr-namespace:CustomControls.Samples.WPF.Utils"
+        xmlns:beh="clr-namespace:CustomControls.Samples.WPF.Behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title}">
     <Border>
         <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         prism:RegionManager.RegionName="{x:Static utils:RegionNames.Root}"/>
+
+        <!--<Image HorizontalAlignment="Left" VerticalAlignment="Top"
+               Stretch="Uniform"
+               Height="100" Width="100">
+            <i:Interaction.Behaviors>
+                <beh:ImageSourceLoadBehabior ImageUriSource="https://cdn-mp-oss.ijia120.com/ih-patient/2021-12-14/ih-patient/1639461235027-2051342.jpg"/>
+                --><!--<beh:ImageSourceLoadBehabior ImageUriSource="D:\Kuro\Pictures\Temp\32x32_map_tile_0.png"/>-->
+                <!--<beh:ImageSourceLoadBehabior ImageUriSource="https://hayabusa.io/openrec-image/user/984833/98483223.q95.w164.ttl604800.headercache0.v1497016845.png?format=png"/>-->
+                <!--<beh:ImageSourceLoadBehabior ImageUriSource="https://www.the-jadescapecondo.com/wp-content/uploads/2018/09/the-jadescape-site-plan-bishan-medium.jpg"/>-->
+                <!--<beh:ImageSourceLoadBehabior ImageUriSource="D:\Kuro\Projects\GitHub\YunXinChatSamples\src2\CustomControls.Samples.WPF\Assets\Images\1639461235027-2051342.jpg"/>--><!--
+            </i:Interaction.Behaviors>
+        </Image>-->
     </Border>
 </Window>
