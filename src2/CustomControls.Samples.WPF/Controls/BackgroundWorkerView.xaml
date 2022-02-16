@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CustomControls.Samples.WPF.Controls"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=local:BackgroundWorkerViewModel,IsDesignTimeCreatable=False}">
+             d:DataContext="{d:DesignInstance Type=local:BackgroundWorkerViewModel,IsDesignTimeCreatable=False}"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,6 +14,13 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <d:DesignProperties.DesignStyle>
         <Style TargetType="UserControl">
