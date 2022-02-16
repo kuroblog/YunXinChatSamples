@@ -89,6 +89,8 @@ namespace CustomControls.Samples.WPF.Controls
 
             var controlMenu = addMenuItemInfo(_menus, "Contorls", "", undoNavigationHandler);
             addMenuItemInfo(controlMenu.SubMenus, "Image", typeof(ImageView).FullName, doNavigationHandler);
+            addMenuItemInfo(controlMenu.SubMenus, "Input", typeof(InputView).FullName, doNavigationHandler);
+            addMenuItemInfo(controlMenu.SubMenus, "BackgroundWorker", typeof(BackgroundWorkerView).FullName, doNavigationHandler);
 
             var testMenu = addMenuItemInfo(_menus, "Tests", "", undoNavigationHandler);
             addMenuItemInfo(testMenu.SubMenus, "Template", typeof(TemplateView).FullName, doNavigationHandler);
