@@ -11,6 +11,17 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/CustomControls.Samples.WPF;component/Assets/Styles/CustomerStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <local:ErrorContentConverter x:Key="ErrorContentConverter"/>
+
+            <Style TargetType="TextBox" x:Key="ValidationTextBox">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="ToolTip" 
+                                Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(Validation.Errors),Converter={StaticResource ErrorContentConverter}}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -22,5 +33,24 @@
         </Style>
     </d:DesignProperties.DesignStyle>
 
-    <Grid></Grid>
+    <StackPanel>
+        <TextBox Text="{Binding Input,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True,ValidatesOnExceptions=True}" VerticalAlignment="Center">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <!--<Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(Validation.Errors)[0].ErrorContent}"/>-->
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(Validation.Errors),Converter={StaticResource ErrorContentConverter}}"/>
+                        </Trigger>
+                        <Trigger Property="Validation.HasError" Value="False">
+                            <Setter Property="ToolTip" Value="{x:Null}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Style="{StaticResource ValidationTextBox}"
+                 Text="{Binding Phone,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True,ValidatesOnExceptions=True}"/>
+        <Button Content="test" Padding="10,1" VerticalAlignment="Center"/>
+    </StackPanel>
 </UserControl>
