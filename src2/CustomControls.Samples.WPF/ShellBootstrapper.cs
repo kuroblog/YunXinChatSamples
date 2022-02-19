@@ -56,6 +56,7 @@ namespace CustomControls.Samples.WPF
             doRegisterControl<ImageView>();
             doRegisterControl<InputView>();
             doRegisterControl<BackgroundWorkerView>();
+            doRegisterControl<CefBrowserView>();
         }
 
         protected override ILoggerFacade CreateLogger()

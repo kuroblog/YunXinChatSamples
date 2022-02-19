@@ -91,6 +91,7 @@ namespace CustomControls.Samples.WPF.Controls
             addMenuItemInfo(controlMenu.SubMenus, "Image", typeof(ImageView).FullName, doNavigationHandler);
             addMenuItemInfo(controlMenu.SubMenus, "Input", typeof(InputView).FullName, doNavigationHandler);
             addMenuItemInfo(controlMenu.SubMenus, "BackgroundWorker", typeof(BackgroundWorkerView).FullName, doNavigationHandler);
+            addMenuItemInfo(controlMenu.SubMenus, "CefWebBrowser", typeof(CefBrowserView).FullName, doNavigationHandler);
 
             var testMenu = addMenuItemInfo(_menus, "Tests", "", undoNavigationHandler);
             addMenuItemInfo(testMenu.SubMenus, "Template", typeof(TemplateView).FullName, doNavigationHandler);
